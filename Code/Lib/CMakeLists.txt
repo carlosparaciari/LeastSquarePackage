@@ -15,6 +15,7 @@
 set(LEASTSQUARESPACKAGE_SRCS
   lsqBasicTypes.cpp
   lsqMyFunctions.cpp
+  lsqLeastSquare3D.cpp
 )
 
 add_library(leastsquarespackage ${LEASTSQUARESPACKAGE_SRCS})
