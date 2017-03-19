@@ -18,6 +18,7 @@ set(TMP_DIR ${CMAKE_BINARY_DIR}/Testing/Temporary)
 set(TEST_CASES
   lsqBasicTest
   lsqCommandLineArgsTest
+  lsqLeastSquare3DTest
 )
 
 foreach(_test_case ${TEST_CASES})
@@ -34,3 +35,9 @@ endforeach()
 
 add_test(NoArgs ${EXECUTABLE_OUTPUT_PATH}/lsqBasicTest)
 add_test(1File ${EXECUTABLE_OUTPUT_PATH}/lsqCommandLineArgsTest ${DATA_DIR}/input.txt)
+add_test(LS3D
+  ${EXECUTABLE_OUTPUT_PATH}/lsqLeastSquare3DTest
+  ${DATA_DIR}/first_set_points_test.txt
+  ${DATA_DIR}/second_set_points_test.txt
+  ${DATA_DIR}/rotation_test.txt
+  ${DATA_DIR}/translation_test.txt)
