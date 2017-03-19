@@ -49,11 +49,20 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
   	/// Method to add a 3D point into the first vector.
     /**
     * \param point a 3D point defined by coordinates x,y,z.
-    * \sa add_point_second_vector(), m_add_point_to_vector().
+    * \sa add_point_second_vector(), pop_point_first_vector().
     *
     * Add a point at the end of the vector m_first_point_vector.
     */
-  	void add_point_first_vector(const Eigen::Array3d point);
+  	void add_point_first_vector(const Eigen::Array3d & point);
+
+    /// Method to pop back the last 3D point of the first vector.
+    /**
+    * \return the last point in the first vector.
+    * \sa add_point_first_vector(), pop_point_second_vector().
+    *
+    * Erase the last element of m_first_point_vector, and return it.
+    */
+    Eigen::Array3d pop_point_first_vector();
 
   	/// Method to add a 3D point into the second vector.
     /**
@@ -62,14 +71,23 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     *
     * Add a point at the end of the vector m_second_point_vector.
     */
-  	void add_point_second_vector(const Eigen::Array3d point);
+  	void add_point_second_vector(const Eigen::Array3d & point);
+
+    /// Method to pop back the last 3D point of the second vector.
+    /**
+    * \return the last point in the second vector.
+    * \sa add_point_second_vector(), pop_point_first_vector().
+    *
+    * Erase the last element of m_second_point_vector, and return it.
+    */
+    Eigen::Array3d pop_point_second_vector();
 
   	/// Method to set the algorithm to compute the rotation.
     /**
     * \param computing_algorithm an instance of the class ComputeRotation, specifies the strategy to use
-	*
-	* Set the algorithm used by the class to compute the rotation connecting the two points.
-	* The algorithm can change, and the strategy pattern is used to provide two distinct algorithms.
+	  *
+	  * Set the algorithm used by the class to compute the rotation connecting the two points.
+	  * The algorithm can change, and the strategy pattern is used to provide two distinct algorithms.
     */
   	void set_rotation_strategy(ComputeRotation* computing_algorithm);
 
@@ -158,16 +176,6 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
   	Eigen::Matrix3d m_rotation_matrix; /**< Rotation matrix connecting the two sets of points. */
   	Eigen::Array3d m_translation_vector; /**< Translation vector connecting the two sets of points. */
 
-  	/// Method to add a 3D point into a vector.
-    /**
-    * \param point_vector a vector of 3D points.
-    * \param point a 3D point defined by coordinates x,y,z.
-    * \sa add_point_first_vector(), add_point_second_vector().
-    *
-    * Add a point at the end of the vector point_vector.
-    */
-  	void m_add_point_to_vector(std::vector<Eigen::Array3d> point_vector, const Eigen::Array3d point);
-
   	/// Method to compute the centroid of the a vector of 3D points.
     /**
     * \param point_vector a vector of 3D points.
@@ -175,7 +183,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     *
     * The centroid of the a set of points is computed.
     */
-  	void m_compute_centroid(const std::vector<Eigen::Array3d> point_vector);
+  	void m_compute_centroid(const std::vector<Eigen::Array3d>* point_vector);
 
   	/// Method to update a vector around its centroid.
     /**
@@ -185,7 +193,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     *
     * Update a set of 3D points so that their centroid is zero.
     */
-  	void m_update_points_around_centroid(std::vector<Eigen::Array3d> point_vector, const Eigen::Array3d point);
+  	void m_update_points_around_centroid(std::vector<Eigen::Array3d>* point_vector, const Eigen::Array3d & point);
 
 };
 

@@ -14,6 +14,8 @@
 
 #include "catch.hpp"
 #include "lsqCatchMain.h"
+#include "lsqLeastSquare3D.h"
+#include <Eigen/Dense>
 #include <iostream>
 #include <fstream>
 
@@ -139,5 +141,36 @@ TEST_CASE( "Translation vector is read", "[init]" ) {
   REQUIRE(translation[2] == z_value);
 
   filein.close();
+
+}
+
+TEST_CASE( "Throw exception when we pop an element from empty array", "[add_remove_points]" ) {
+
+  lsq::LeastSquare3D add_example;
+  Eigen::Array3d point_3D;
+
+  REQUIRE_THROWS( point_3D = add_example.pop_point_first_vector() );
+  REQUIRE_THROWS( point_3D = add_example.pop_point_second_vector() );
+
+}
+
+TEST_CASE( "Add 3D point to first and second set", "[add_remove_points]" ) {
+
+  lsq::LeastSquare3D add_example;
+  Eigen::Array3d point_3D_in = {1,2,3};
+  Eigen::Array3d point_3D_out;
+
+  add_example.add_point_first_vector(point_3D_in);
+  add_example.add_point_second_vector(point_3D_in);
+
+  point_3D_out = add_example.pop_point_first_vector();
+
+  for( int i = 0 ; i < 3 ; ++i )
+    REQUIRE( point_3D_out(i) == point_3D_in(i) );
+
+  point_3D_out = add_example.pop_point_second_vector();
+
+  for( int i = 0 ; i < 3 ; ++i )
+    REQUIRE( point_3D_out(i) == point_3D_in(i) );
 
 }

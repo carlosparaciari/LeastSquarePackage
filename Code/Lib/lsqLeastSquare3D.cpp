@@ -16,5 +16,17 @@
 
 namespace lsq {
 
+  /// Method to add a 3D point into the first vector.
+  void LeastSquare3D::add_point_first_vector(const Eigen::Array3d & point){}
+
+  /// Method to pop back the last 3D point of the first vector.
+  Eigen::Array3d LeastSquare3D::pop_point_first_vector(){}
+
+  /// Method to add a 3D point into the second vector.
+  void LeastSquare3D::add_point_second_vector(const Eigen::Array3d & point){}
+
+  /// Method to pop back the last 3D point of the second vector.
+  Eigen::Array3d LeastSquare3D::pop_point_second_vector(){}
+
 
 } // end namespace
