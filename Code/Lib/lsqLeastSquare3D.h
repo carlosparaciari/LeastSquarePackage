@@ -95,8 +95,8 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     /**
     * \sa m_compute_centroid(), centroid_second_vector().
     *
-    * The centroid of the first set of points \f$\{ \text{p}_i \}_{i=1}^{N}\f$ is computed as
-    * \f$\text{p} = \frac{1}{N} \sum_{i=1}^{N} \text{p}_i\f$.
+    * The centroid of the first set of points \f$\{ p_i \}_{i=1}^{N}\f$ is computed as
+    * \f$p = \frac{1}{N} \sum_{i=1}^{N} p_i\f$.
     */
   	void centroid_first_vector();
 
@@ -104,8 +104,8 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     /**
     * \sa m_compute_centroid(), centroid_first_vector().
     *
-    * The centroid of the second set of points \f$\{ \text{p}'_i \}_{i=1}^{N}\f$ is computed as
-    * \f$\text{p}' = \frac{1}{N} \sum_{i=1}^{N} \text{p}'_i\f$.
+    * The centroid of the second set of points \f$\{ p'_i \}_{i=1}^{N}\f$ is computed as
+    * \f$p' = \frac{1}{N} \sum_{i=1}^{N} p'_i\f$.
     */
   	void centroid_second_vector();
 
@@ -113,8 +113,8 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     /**
     * \sa m_update_points_around_centroid().
     *
-    * The first set of points get updated from \f$\{ \text{p}_i \}_{i=1}^{N}\f$ into \f$\{ \text{p}_i - \text{p} \}_{i=1}^{N}\f$,
-    * where \f$\text{p}\f$ is the centroid of the set.
+    * The first set of points get updated from \f$\{ p_i \}_{i=1}^{N}\f$ into \f$\{ p_i - p \}_{i=1}^{N}\f$,
+    * where \f$p\f$ is the centroid of the set.
     */
   	void update_first_points_around_centroid();
 
@@ -122,8 +122,8 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     /**
     * \sa m_update_points_around_centroid().
     *
-    * The second set of points get updated from \f$\{ \text{p}'_i \}_{i=1}^{N}\f$ into \f$\{ \text{p}'_i - \text{p}' \}_{i=1}^{N}\f$,
-    * where \f$\text{p}'\f$ is the centroid of the set.
+    * The second set of points get updated from \f$\{ p'_i \}_{i=1}^{N}\f$ into \f$\{ p'_i - p' \}_{i=1}^{N}\f$,
+    * where \f$p'\f$ is the centroid of the set.
     */
   	void update_second_points_around_centroid();
 
