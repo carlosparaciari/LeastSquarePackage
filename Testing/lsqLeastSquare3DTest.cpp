@@ -149,9 +149,13 @@ TEST_CASE( "Throw exception when we pop an element from empty array", "[add_remo
   lsq::LeastSquare3D add_example;
   Eigen::Array3d point_3D;
 
-  REQUIRE_THROWS( point_3D = add_example.pop_point_first_vector() );
-  REQUIRE_THROWS( point_3D = add_example.pop_point_second_vector() );
-
+  SECTION( "Pop an element from the first vector" ) {
+    REQUIRE_THROWS( point_3D = add_example.pop_point_first_vector() );
+  }
+  SECTION( "Pop an element from the second vector" ) {
+    REQUIRE_THROWS( point_3D = add_example.pop_point_second_vector() );
+  }
+  
 }
 
 TEST_CASE( "Add 3D point to first and second set", "[add_remove_points]" ) {
