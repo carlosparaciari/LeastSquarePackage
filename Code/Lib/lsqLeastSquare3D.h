@@ -102,6 +102,15 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     */
   	void centroid_first_vector();
 
+    /// Method to get the centroid of the first vector.
+    /**
+    * \return the the centroid of the first vector.
+    * \sa centroid_first_vector().
+    *
+    * Returns the centroid of the first vector if it has been evaluated, or an empty 3D array otherwise.
+    */
+    Eigen::Array3d get_centroid_first_vector();
+
   	/// Method to compute the centroid of the second vector of 3D points.
     /**
     * \sa m_compute_centroid(), centroid_first_vector().
@@ -110,6 +119,15 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     * \f$p' = \frac{1}{N} \sum_{i=1}^{N} p'_i\f$.
     */
   	void centroid_second_vector();
+
+  	/// Method to get the centroid of the second vector.
+    /**
+    * \return the the centroid of the second vector.
+    * \sa centroid_second_vector().
+    *
+    * Returns the centroid of the second vector if it has been evaluated, or an empty 3D array otherwise.
+    */
+    Eigen::Array3d get_centroid_second_vector();
 
   	/// Method to update the first vector of points around its centroid.
     /**

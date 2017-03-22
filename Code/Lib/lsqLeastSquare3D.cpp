@@ -60,5 +60,19 @@ namespace lsq {
 
   }
 
+  /// Method to compute the centroid of the a vector of 3D points.
+  void m_compute_centroid(const std::vector<Eigen::Array3d>* point_vector) {}
+
+  /// Method to compute the centroid of the first vector of 3D points.
+  void centroid_first_vector() {}
+
+  /// Method to get the centroid of the first vector.
+  Eigen::Array3d get_centroid_first_vector() {}
+
+  /// Method to compute the centroid of the second vector of 3D points.
+  void centroid_second_vector() {}
+
+  /// Method to get the centroid of the second vector.
+  Eigen::Array3d get_centroid_second_vector() {}
 
 } // end namespace
