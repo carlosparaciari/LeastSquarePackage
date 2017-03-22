@@ -16,6 +16,12 @@
 
 namespace lsq {
 
+  /// The class constructor.
+  LeastSquare3D::LeastSquare3D() {
+  	m_first_centroid = {0.,0.,0.};
+  	m_second_centroid = {0.,0.,0.};
+  }
+
   /// Method to add a 3D point into the first vector.
   void LeastSquare3D::add_point_first_vector(const Eigen::Array3d & point) {
 
@@ -73,18 +79,26 @@ namespace lsq {
   }
 
   /// Method to compute the centroid of the a vector of 3D points.
-  void m_compute_centroid(const std::vector<Eigen::Array3d>* point_vector) {}
+  void LeastSquare3D::m_compute_centroid(const std::vector<Eigen::Array3d>* point_vector) {}
 
   /// Method to compute the centroid of the first vector of 3D points.
-  void centroid_first_vector() {}
-
-  /// Method to get the centroid of the first vector.
-  Eigen::Array3d get_centroid_first_vector() {}
+  void LeastSquare3D::centroid_first_vector() {}
 
   /// Method to compute the centroid of the second vector of 3D points.
-  void centroid_second_vector() {}
+  void LeastSquare3D::centroid_second_vector() {}
+
+  /// Method to get the centroid of the first vector.
+  Eigen::Array3d LeastSquare3D::get_centroid_first_vector() {
+
+  	return m_first_centroid;
+
+  }
 
   /// Method to get the centroid of the second vector.
-  Eigen::Array3d get_centroid_second_vector() {}
+  Eigen::Array3d LeastSquare3D::get_centroid_second_vector() {
+
+  	return m_second_centroid;
+
+  }
 
 } // end namespace

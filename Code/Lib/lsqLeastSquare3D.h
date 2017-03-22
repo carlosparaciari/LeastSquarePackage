@@ -43,10 +43,10 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
   public:
 
 	/// The class constructor.
-  	LeastSquare3D(){};
+  	LeastSquare3D();
 
   	/// The class destructor.
-  	~LeastSquare3D(){};
+  	~LeastSquare3D() {};
 
   	/// Method to add a 3D point into the first vector.
     /**
@@ -60,7 +60,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     /// Method to pop back the last 3D point of the first vector.
     /**
     * \return the last point in the first vector.
-    * \sa add_point_first_vector(), pop_point_second_vector().
+    * \sa m_pop_point_vector(), pop_point_second_vector().
     *
     * Erase the last element of m_first_point_vector, and return it.
     */
@@ -78,7 +78,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     /// Method to pop back the last 3D point of the second vector.
     /**
     * \return the last point in the second vector.
-    * \sa add_point_second_vector(), pop_point_first_vector().
+    * \sa m_pop_point_vector(), pop_point_first_vector().
     *
     * Erase the last element of m_second_point_vector, and return it.
     */
