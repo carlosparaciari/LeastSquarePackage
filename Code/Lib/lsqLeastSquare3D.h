@@ -19,6 +19,8 @@
 
 #include <Eigen/Dense>
 #include <vector>
+#include <string>
+#include <exception>
 #include "lsqComputeRotation.h"
 
 /**
@@ -175,6 +177,8 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
 
   	Eigen::Matrix3d m_rotation_matrix; /**< Rotation matrix connecting the two sets of points. */
   	Eigen::Array3d m_translation_vector; /**< Translation vector connecting the two sets of points. */
+
+  	std::string m_lenght_error_message = "The vector is empty, cannot remove elements."; /**< Error message when trying to extract element from empty array. */
 
   	/// Method to compute the centroid of the a vector of 3D points.
     /**
