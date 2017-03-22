@@ -15,7 +15,7 @@
 #ifndef lsqComputeRotation_h
 #define lsqComputeRotation_h
 
-#include "lsqComputeRotation.h"
+#include "lsqWin32ExportHeader.h"
 
 /**
 * \file lsqComputeRotation.h
