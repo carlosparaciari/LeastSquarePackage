@@ -179,3 +179,50 @@ TEST_CASE( "Add 3D point to first and second set", "[add_remove_points]" ) {
   }
 
 }
+
+TEST_CASE( "Compute centroid for the sets of points", "[centroids]" ) {
+
+  lsq::LeastSquare3D centroid_example;
+  Eigen::Array3d point_3D_in;
+  double x_value, y_value, z_value;
+
+  std::fstream filein;
+  filein.open (lsq::argv[1]);
+
+  while(!filein.eof())
+  {
+    filein >> x_value >> y_value >> z_value;
+    point_3D_in = {x_value, y_value, z_value};
+    centroid_example.add_point_first_vector(point_3D_in);
+  }
+
+  filein.close();
+
+  Eigen::Array3d expected_centroid = {0.,0.,0.};
+  Eigen::Array3d obtained_centroid;
+
+  SECTION( "Get first centroid without having computed it" ) {
+    obtained_centroid = centroid_example.get_centroid_first_vector();
+    for( int i = 0 ; i < 3 ; ++i )
+      REQUIRE( expected_centroid(i) == obtained_centroid(i) );
+  }
+
+  SECTION( "Get second centroid without having computed it" ) {
+    obtained_centroid = centroid_example.get_centroid_second_vector();
+    for( int i = 0 ; i < 3 ; ++i )
+      REQUIRE( expected_centroid(i) == obtained_centroid(i) );
+  }
+
+  SECTION( "Compute first centroid and check it" ) {
+    centroid_example.centroid_first_vector();
+    obtained_centroid = centroid_example.get_centroid_first_vector();
+    expected_centroid = {1./3., 1./3., 1./3.};
+    for( int i = 0 ; i < 3 ; ++i )
+      REQUIRE( expected_centroid(i) == obtained_centroid(i) );
+  }
+
+  SECTION( "Compute second centroid and get an error (the second vector is empty)" ) {
+    REQUIRE_THROWS(centroid_example.centroid_second_vector());
+  }
+
+}
