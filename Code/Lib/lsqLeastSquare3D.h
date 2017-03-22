@@ -196,9 +196,17 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
   	Eigen::Matrix3d m_rotation_matrix; /**< Rotation matrix connecting the two sets of points. */
   	Eigen::Array3d m_translation_vector; /**< Translation vector connecting the two sets of points. */
 
-  	std::string m_lenght_error_message = "The vector is empty, cannot remove elements."; /**< Error message when trying to extract element from empty array. */
+  	/// Private method to pop back the last 3D point of a vector.
+    /**
+    * \param point_vector a vector of 3D points.
+    * \return the last point in the point_vector.
+    * \sa pop_point_first_vector(), pop_point_second_vector().
+    *
+    * Erase the last element of point_vector, and return it.
+    */
+    Eigen::Array3d m_pop_point_vector(std::vector<Eigen::Array3d>* point_vector);
 
-  	/// Method to compute the centroid of the a vector of 3D points.
+  	/// Private method to compute the centroid of the a vector of 3D points.
     /**
     * \param point_vector a vector of 3D points.
     * \sa centroid_first_vector(), centroid_second_vector().
@@ -207,7 +215,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     */
   	void m_compute_centroid(const std::vector<Eigen::Array3d>* point_vector);
 
-  	/// Method to update a vector around its centroid.
+  	/// Private method to update a vector around its centroid.
     /**
     * \param point_vector a vector of 3D points.
     * \param point a 3D point defined by coordinates x,y,z.

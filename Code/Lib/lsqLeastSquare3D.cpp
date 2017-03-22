@@ -23,21 +23,6 @@ namespace lsq {
 
   }
 
-  /// Method to pop back the last 3D point of the first vector.
-  Eigen::Array3d LeastSquare3D::pop_point_first_vector() {
-
-    if( m_first_point_vector.empty() ) {
-      throw std::length_error(m_lenght_error_message);
-    }
-    else {
-      Eigen::Array3d last_element;
-      last_element = m_first_point_vector.back();
-      m_first_point_vector.pop_back();
-      return last_element;
-    }
-
-  }
-
   /// Method to add a 3D point into the second vector.
   void LeastSquare3D::add_point_second_vector(const Eigen::Array3d & point) {
 
@@ -45,17 +30,44 @@ namespace lsq {
 
   }
 
-  /// Method to pop back the last 3D point of the second vector.
-  Eigen::Array3d LeastSquare3D::pop_point_second_vector() {
+  /// Private method to pop back the last 3D point of a vector.
+  Eigen::Array3d LeastSquare3D::m_pop_point_vector(std::vector<Eigen::Array3d>* point_vector) {
 
-    if( m_second_point_vector.empty() ) {
-      throw std::length_error(m_lenght_error_message);
+  	if( point_vector->empty() ) {
+  	  std::string message = std::string("Cannot remove any element.");
+      throw std::length_error(message);
     }
     else {
       Eigen::Array3d last_element;
-      last_element = m_second_point_vector.back();
-      m_second_point_vector.pop_back();
+      last_element = point_vector->back();
+      point_vector->pop_back();
       return last_element;
+    }
+
+  }
+
+  /// Method to pop back the last 3D point of the first vector.
+  Eigen::Array3d LeastSquare3D::pop_point_first_vector() {
+
+    try {
+      return m_pop_point_vector(&m_first_point_vector);
+    }
+    catch (std::length_error &error) {
+      std::string message = std::string("Fisrt vector is empty. ") + error.what();
+      throw std::length_error(message);
+    }
+
+  }
+
+  /// Method to pop back the last 3D point of the second vector.
+  Eigen::Array3d LeastSquare3D::pop_point_second_vector() {
+
+    try {
+      return m_pop_point_vector(&m_second_point_vector);
+    }
+    catch (std::length_error &error) {
+      std::string message = std::string("Second vector is empty. ") + error.what();
+      throw std::length_error(message);
     }
 
   }
