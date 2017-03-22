@@ -155,7 +155,7 @@ TEST_CASE( "Throw exception when we pop an element from empty array", "[add_remo
   SECTION( "Pop an element from the second vector" ) {
     REQUIRE_THROWS( point_3D = add_example.pop_point_second_vector() );
   }
-  
+
 }
 
 TEST_CASE( "Add 3D point to first and second set", "[add_remove_points]" ) {
@@ -164,17 +164,18 @@ TEST_CASE( "Add 3D point to first and second set", "[add_remove_points]" ) {
   Eigen::Array3d point_3D_in = {1,2,3};
   Eigen::Array3d point_3D_out;
 
-  add_example.add_point_first_vector(point_3D_in);
-  add_example.add_point_second_vector(point_3D_in);
+  SECTION( "Add point to first vector and pop it out" ) {
+    add_example.add_point_first_vector(point_3D_in);
+    point_3D_out = add_example.pop_point_first_vector();
+    for( int i = 0 ; i < 3 ; ++i )
+      REQUIRE( point_3D_out(i) == point_3D_in(i) );
+  }
 
-  point_3D_out = add_example.pop_point_first_vector();
-
-  for( int i = 0 ; i < 3 ; ++i )
-    REQUIRE( point_3D_out(i) == point_3D_in(i) );
-
-  point_3D_out = add_example.pop_point_second_vector();
-
-  for( int i = 0 ; i < 3 ; ++i )
-    REQUIRE( point_3D_out(i) == point_3D_in(i) );
+  SECTION( "Add point to second vector and pop it out" ) {
+    add_example.add_point_second_vector(point_3D_in);
+    point_3D_out = add_example.pop_point_second_vector();
+    for( int i = 0 ; i < 3 ; ++i )
+      REQUIRE( point_3D_out(i) == point_3D_in(i) );
+  }
 
 }
