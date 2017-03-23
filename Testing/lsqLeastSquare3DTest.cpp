@@ -213,10 +213,18 @@ TEST_CASE( "Compute centroid for the sets of points", "[centroids]" ) {
       REQUIRE( expected_centroid(i) == obtained_centroid(i) );
   }
 
+  expected_centroid = {1./3., 1./3., 1./3.};
+
   SECTION( "Compute first centroid and check it" ) {
     centroid_example.centroid_first_vector();
     obtained_centroid = centroid_example.get_centroid_first_vector();
-    expected_centroid = {1./3., 1./3., 1./3.};
+    for( int i = 0 ; i < 3 ; ++i )
+      REQUIRE( expected_centroid(i) == obtained_centroid(i) );
+  }
+
+  SECTION( "Compute again the first centroid and check that it does not change" ) {
+    centroid_example.centroid_first_vector();
+    obtained_centroid = centroid_example.get_centroid_first_vector();
     for( int i = 0 ; i < 3 ; ++i )
       REQUIRE( expected_centroid(i) == obtained_centroid(i) );
   }
