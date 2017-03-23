@@ -137,4 +137,13 @@ namespace lsq {
 
   }
 
+  /// Private method to update a vector around its centroid.
+  void m_update_points_around_centroid(std::vector<Eigen::Array3d>* point_vector, const Eigen::Array3d & point) {}
+
+  /// Method to update the first vector of points around its centroid.
+  void LeastSquare3D::update_first_points_around_centroid() {}
+
+  /// Method to update the second vector of points around its centroid.
+  void LeastSquare3D::update_second_points_around_centroid() {}
+
 } // end namespace

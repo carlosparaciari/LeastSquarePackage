@@ -180,7 +180,7 @@ TEST_CASE( "Add 3D point to first and second set", "[add_remove_points]" ) {
 
 }
 
-TEST_CASE( "Compute centroid for the sets of points", "[centroids]" ) {
+TEST_CASE( "Compute centroid for the sets of points and update the set", "[centroids]" ) {
 
   lsq::LeastSquare3D centroid_example;
   Eigen::Array3d point_3D_in;
@@ -230,7 +230,29 @@ TEST_CASE( "Compute centroid for the sets of points", "[centroids]" ) {
   }
 
   SECTION( "Compute second centroid and get an error (the second vector is empty)" ) {
-    REQUIRE_THROWS(centroid_example.centroid_second_vector());
+    REQUIRE_THROWS( centroid_example.centroid_second_vector() );
   }
+  
+  Eigen::Array3d expected_point;
+  Eigen::Array3d obtained_point;
+  std::vector<Eigen::Array3d> expected_updated_first_vector;
+
+  expected_updated_first_vector.push_back( Eigen::Array3d( {-1./3., -1./3., 2./3.} ) );
+  expected_updated_first_vector.push_back( Eigen::Array3d( {-1./3., 2./3., -1./3.} ) );
+  expected_updated_first_vector.push_back( Eigen::Array3d( {2./3., -1./3., -1./3.} ) );
+
+  SECTION( "Update the first set of points around the centroid" ) {
+    centroid_example.update_first_points_around_centroid();
+    for(int i = 0 ; i < 3 ; ++i) {
+      obtained_point = centroid_example.pop_point_first_vector();
+      expected_point = expected_updated_first_vector[i];
+      for( int j = 0 ; j < 3 ; ++j )
+        REQUIRE( expected_point(j) == obtained_point(j) );
+    }
+  }
+
+  SECTION( "Updating the second set of points around the centroid gives an error since it is empty" ) {
+    REQUIRE_THROWS( centroid_example.update_second_points_around_centroid() );
+  } 
 
 }
