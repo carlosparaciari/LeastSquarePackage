@@ -209,11 +209,12 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
   	/// Private method to compute the centroid of the a vector of 3D points.
     /**
     * \param point_vector a vector of 3D points.
+    * \param centroid a 3D point where we save the value of the centroid.
     * \sa centroid_first_vector(), centroid_second_vector().
     *
     * The centroid of the a set of points is computed.
     */
-  	void m_compute_centroid(const std::vector<Eigen::Array3d>* point_vector);
+  	Eigen::Array3d m_compute_centroid(const std::vector<Eigen::Array3d>* point_vector);
 
   	/// Private method to update a vector around its centroid.
     /**

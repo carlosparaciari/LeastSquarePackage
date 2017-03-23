@@ -79,13 +79,49 @@ namespace lsq {
   }
 
   /// Method to compute the centroid of the a vector of 3D points.
-  void LeastSquare3D::m_compute_centroid(const std::vector<Eigen::Array3d>* point_vector) {}
+  Eigen::Array3d LeastSquare3D::m_compute_centroid(const std::vector<Eigen::Array3d>* point_vector) {
+
+    if( point_vector->empty() ) {
+  	  std::string message = std::string("Cannot compute the centroid.");
+      throw std::length_error(message);
+    }
+    else {
+      Eigen::Array3d centroid = {0.,0.,0.};
+      auto vector_iterator = point_vector->begin();
+      for ( ; vector_iterator != point_vector->end(); ++vector_iterator) {
+      	centroid += *vector_iterator;
+      }
+      centroid = centroid/double(point_vector->size());
+      return centroid;
+    }
+
+  }
 
   /// Method to compute the centroid of the first vector of 3D points.
-  void LeastSquare3D::centroid_first_vector() {}
+  void LeastSquare3D::centroid_first_vector() {
+
+    try {
+      m_first_centroid = m_compute_centroid(&m_first_point_vector);
+    }
+    catch (std::length_error &error) {
+      std::string message = std::string("First vector is empty. ") + error.what();
+      throw std::length_error(message);
+    }
+
+  }
 
   /// Method to compute the centroid of the second vector of 3D points.
-  void LeastSquare3D::centroid_second_vector() {}
+  void LeastSquare3D::centroid_second_vector() {
+
+  	try {
+      m_second_centroid = m_compute_centroid(&m_second_point_vector);
+    }
+    catch (std::length_error &error) {
+      std::string message = std::string("Second vector is empty. ") + error.what();
+      throw std::length_error(message);
+    }
+
+  }
 
   /// Method to get the centroid of the first vector.
   Eigen::Array3d LeastSquare3D::get_centroid_first_vector() {
