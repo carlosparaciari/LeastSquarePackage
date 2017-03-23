@@ -237,11 +237,12 @@ TEST_CASE( "Compute centroid for the sets of points and update the set", "[centr
   Eigen::Array3d obtained_point;
   std::vector<Eigen::Array3d> expected_updated_first_vector;
 
-  expected_updated_first_vector.push_back( Eigen::Array3d( {-1./3., -1./3., 2./3.} ) );
-  expected_updated_first_vector.push_back( Eigen::Array3d( {-1./3., 2./3., -1./3.} ) );
-  expected_updated_first_vector.push_back( Eigen::Array3d( {2./3., -1./3., -1./3.} ) );
+  expected_updated_first_vector.push_back( Eigen::Array3d( {0.-1./3., 0.-1./3., 1.-1./3.} ) );
+  expected_updated_first_vector.push_back( Eigen::Array3d( {0.-1./3., 1.-1./3., 0.-1./3.} ) );
+  expected_updated_first_vector.push_back( Eigen::Array3d( {1.-1./3., 0.-1./3., 0.-1./3.} ) );
 
   SECTION( "Update the first set of points around the centroid" ) {
+    centroid_example.centroid_first_vector();
     centroid_example.update_first_points_around_centroid();
     for(int i = 0 ; i < 3 ; ++i) {
       obtained_point = centroid_example.pop_point_first_vector();
