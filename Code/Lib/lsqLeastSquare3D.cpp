@@ -138,12 +138,43 @@ namespace lsq {
   }
 
   /// Private method to update a vector around its centroid.
-  void m_update_points_around_centroid(std::vector<Eigen::Array3d>* point_vector, const Eigen::Array3d & point) {}
+  void LeastSquare3D::m_update_points_around_centroid(std::vector<Eigen::Array3d>& point_vector, const Eigen::Array3d & point) {
+
+    if( point_vector.empty() ) {
+  	  std::string message = std::string("Cannot update the set of points around the centroid.");
+      throw std::length_error(message);
+    }
+    else {
+      for ( int i = 0; i < point_vector.size(); ++i)
+        point_vector[i] -= point;
+    }
+
+  }
 
   /// Method to update the first vector of points around its centroid.
-  void LeastSquare3D::update_first_points_around_centroid() {}
+  void LeastSquare3D::update_first_points_around_centroid() {
+
+  	try {
+      m_update_points_around_centroid(m_first_point_vector, m_first_centroid);
+    }
+    catch (std::length_error &error) {
+      std::string message = std::string("First vector is empty. ") + error.what();
+      throw std::length_error(message);
+    }
+
+  }
 
   /// Method to update the second vector of points around its centroid.
-  void LeastSquare3D::update_second_points_around_centroid() {}
+  void LeastSquare3D::update_second_points_around_centroid() {
+
+  	try {
+      m_update_points_around_centroid(m_second_point_vector, m_second_centroid);
+    }
+    catch (std::length_error &error) {
+      std::string message = std::string("Second vector is empty. ") + error.what();
+      throw std::length_error(message);
+    }
+
+  }
 
 } // end namespace

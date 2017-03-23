@@ -224,7 +224,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     *
     * Update a set of 3D points so that their centroid is zero.
     */
-  	void m_update_points_around_centroid(std::vector<Eigen::Array3d>* point_vector, const Eigen::Array3d & point);
+  	void m_update_points_around_centroid(std::vector<Eigen::Array3d>& point_vector, const Eigen::Array3d & point);
 
 };
 
