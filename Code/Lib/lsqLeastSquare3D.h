@@ -204,7 +204,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     *
     * Erase the last element of point_vector, and return it.
     */
-    Eigen::Array3d m_pop_point_vector(std::vector<Eigen::Array3d>* point_vector);
+    Eigen::Array3d m_pop_point_vector(std::vector<Eigen::Array3d> & point_vector);
 
   	/// Private method to compute the centroid of the a vector of 3D points.
     /**
@@ -214,7 +214,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     *
     * The centroid of the a set of points is computed.
     */
-  	Eigen::Array3d m_compute_centroid(const std::vector<Eigen::Array3d>* point_vector);
+  	Eigen::Array3d m_compute_centroid(const std::vector<Eigen::Array3d> & point_vector);
 
   	/// Private method to update a vector around its centroid.
     /**
@@ -224,7 +224,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     *
     * Update a set of 3D points so that their centroid is zero.
     */
-  	void m_update_points_around_centroid(std::vector<Eigen::Array3d>& point_vector, const Eigen::Array3d & point);
+  	void m_update_points_around_centroid(std::vector<Eigen::Array3d> & point_vector, const Eigen::Array3d & point);
 
 };
 

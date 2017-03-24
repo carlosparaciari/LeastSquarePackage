@@ -37,16 +37,16 @@ namespace lsq {
   }
 
   /// Private method to pop back the last 3D point of a vector.
-  Eigen::Array3d LeastSquare3D::m_pop_point_vector(std::vector<Eigen::Array3d>* point_vector) {
+  Eigen::Array3d LeastSquare3D::m_pop_point_vector(std::vector<Eigen::Array3d> & point_vector) {
 
-  	if( point_vector->empty() ) {
+  	if( point_vector.empty() ) {
   	  std::string message = std::string("Cannot remove any element.");
       throw std::length_error(message);
     }
     else {
       Eigen::Array3d last_element;
-      last_element = point_vector->back();
-      point_vector->pop_back();
+      last_element = point_vector.back();
+      point_vector.pop_back();
       return last_element;
     }
 
@@ -56,7 +56,7 @@ namespace lsq {
   Eigen::Array3d LeastSquare3D::pop_point_first_vector() {
 
     try {
-      return m_pop_point_vector(&m_first_point_vector);
+      return m_pop_point_vector(m_first_point_vector);
     }
     catch (std::length_error &error) {
       std::string message = std::string("Fisrt vector is empty. ") + error.what();
@@ -69,7 +69,7 @@ namespace lsq {
   Eigen::Array3d LeastSquare3D::pop_point_second_vector() {
 
     try {
-      return m_pop_point_vector(&m_second_point_vector);
+      return m_pop_point_vector(m_second_point_vector);
     }
     catch (std::length_error &error) {
       std::string message = std::string("Second vector is empty. ") + error.what();
@@ -79,19 +79,19 @@ namespace lsq {
   }
 
   /// Method to compute the centroid of the a vector of 3D points.
-  Eigen::Array3d LeastSquare3D::m_compute_centroid(const std::vector<Eigen::Array3d>* point_vector) {
+  Eigen::Array3d LeastSquare3D::m_compute_centroid(const std::vector<Eigen::Array3d> & point_vector) {
 
-    if( point_vector->empty() ) {
+    if( point_vector.empty() ) {
   	  std::string message = std::string("Cannot compute the centroid.");
       throw std::length_error(message);
     }
     else {
       Eigen::Array3d centroid = {0.,0.,0.};
-      auto vector_iterator = point_vector->begin();
-      for ( ; vector_iterator != point_vector->end(); ++vector_iterator) {
+      auto vector_iterator = point_vector.begin();
+      for ( ; vector_iterator != point_vector.end(); ++vector_iterator) {
       	centroid += *vector_iterator;
       }
-      centroid = centroid/double(point_vector->size());
+      centroid = centroid/double(point_vector.size());
       return centroid;
     }
 
@@ -101,7 +101,7 @@ namespace lsq {
   void LeastSquare3D::centroid_first_vector() {
 
     try {
-      m_first_centroid = m_compute_centroid(&m_first_point_vector);
+      m_first_centroid = m_compute_centroid(m_first_point_vector);
     }
     catch (std::length_error &error) {
       std::string message = std::string("First vector is empty. ") + error.what();
@@ -114,7 +114,7 @@ namespace lsq {
   void LeastSquare3D::centroid_second_vector() {
 
   	try {
-      m_second_centroid = m_compute_centroid(&m_second_point_vector);
+      m_second_centroid = m_compute_centroid(m_second_point_vector);
     }
     catch (std::length_error &error) {
       std::string message = std::string("Second vector is empty. ") + error.what();
@@ -138,7 +138,7 @@ namespace lsq {
   }
 
   /// Private method to update a vector around its centroid.
-  void LeastSquare3D::m_update_points_around_centroid(std::vector<Eigen::Array3d>& point_vector, const Eigen::Array3d & point) {
+  void LeastSquare3D::m_update_points_around_centroid(std::vector<Eigen::Array3d> & point_vector, const Eigen::Array3d & point) {
 
     if( point_vector.empty() ) {
   	  std::string message = std::string("Cannot update the set of points around the centroid.");
