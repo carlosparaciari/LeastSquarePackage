@@ -20,6 +20,7 @@ namespace lsq {
   LeastSquare3D::LeastSquare3D() {
   	m_first_centroid = {0.,0.,0.};
   	m_second_centroid = {0.,0.,0.};
+  	m_H_matrix = Eigen::Matrix3d::Zero(3, 3);
   }
 
   /// Method to add a 3D point into the first vector.
@@ -176,5 +177,11 @@ namespace lsq {
     }
 
   }
+
+  /// Method to compute an auxiliar matrix needed for computing the rotation.
+  void LeastSquare3D::compute_H_matrix() {}
+
+  /// Method to get the auxiliary matrix H.
+  Eigen::Matrix3d LeastSquare3D::get_H_matrix() {}
 
 } // end namespace

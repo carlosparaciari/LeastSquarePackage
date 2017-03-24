@@ -147,11 +147,18 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     */
   	void update_second_points_around_centroid();
 
-  	/// Method to compute an auxiliar matrix needed for computing the rotation.
+  	/// Method to compute an auxiliary matrix needed for computing the rotation.
     /**
     * The method uses both the first and second set of points to compute this matrix.
     */
   	void compute_H_matrix();
+
+  	/// Method to get the auxiliary matrix H.
+    /**
+    * \return the matrix H.
+    * \sa compute_H_matrix().
+    */
+  	Eigen::Matrix3d get_H_matrix();
 
   	/// Method to compute the rotation matrix connecting the first set of points to the second.
     /**

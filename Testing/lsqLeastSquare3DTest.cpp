@@ -257,3 +257,213 @@ TEST_CASE( "Compute centroid for the sets of points and update the set", "[centr
   } 
 
 }
+
+TEST_CASE( "Compute the H matrix for the problem", "[H_matrix]" ) {
+
+  lsq::LeastSquare3D centroid_example;
+
+  Eigen::Array3d point_one;
+  Eigen::Array3d point_two;
+  Eigen::Matrix3d obtained_matrix;
+  Eigen::Matrix3d expected_matrix = Eigen::Matrix3d::Zero(3, 3);
+
+  SECTION( "Return the H matrix without compute it." ) {
+    obtained_matrix = centroid_example.get_H_matrix();
+    for( int i = 0 ; i < 3 ; ++i )
+      for( int j = 0 ; j < 3 ; ++j )
+      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+  }
+
+  SECTION( "No element in both sets of points." ) {
+    REQUIRE_THROWS( centroid_example.compute_H_matrix() );
+  }
+
+  SECTION( "No element in first sets of points." ) {
+    point_two = {1.,0.,0.};
+    centroid_example.add_point_second_vector(point_two);
+    REQUIRE_THROWS( centroid_example.compute_H_matrix() );
+  }
+
+  SECTION( "No element in second sets of points." ) {
+    point_one = {1.,0.,0.};
+    centroid_example.add_point_first_vector(point_one);
+    REQUIRE_THROWS( centroid_example.compute_H_matrix() );
+  }
+
+  SECTION( "One element in each set of points: xx case" ) {
+    point_one = {1.,0.,0.};
+    point_two = {1.,0.,0.};
+    expected_matrix(0,0) = 1;
+
+    centroid_example.add_point_first_vector(point_one);
+    centroid_example.add_point_second_vector(point_two);
+    centroid_example.compute_H_matrix();
+    obtained_matrix = centroid_example.get_H_matrix();
+
+    for( int i = 0 ; i < 3 ; ++i )
+      for( int j = 0 ; j < 3 ; ++j )
+      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+  }
+
+  SECTION( "One element in each set of points: xy case" ) {
+    point_one = {1.,0.,0.};
+    point_two = {0.,1.,0.};
+    expected_matrix(0,1) = 1;
+
+    centroid_example.add_point_first_vector(point_one);
+    centroid_example.add_point_second_vector(point_two);
+    centroid_example.compute_H_matrix();
+    obtained_matrix = centroid_example.get_H_matrix();
+
+    for( int i = 0 ; i < 3 ; ++i )
+      for( int j = 0 ; j < 3 ; ++j )
+      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+  }
+
+  SECTION( "One element in each set of points: xz case" ) {
+    point_one = {1.,0.,0.};
+    point_two = {0.,0.,1.};
+    expected_matrix(0,2) = 1;
+
+    centroid_example.add_point_first_vector(point_one);
+    centroid_example.add_point_second_vector(point_two);
+    centroid_example.compute_H_matrix();
+    obtained_matrix = centroid_example.get_H_matrix();
+
+    for( int i = 0 ; i < 3 ; ++i )
+      for( int j = 0 ; j < 3 ; ++j )
+      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+  } 
+  
+  SECTION( "One element in each set of points: yx case" ) {
+    point_one = {0.,1.,0.};
+    point_two = {1.,0.,0.};
+    expected_matrix(1,0) = 1;
+
+    centroid_example.add_point_first_vector(point_one);
+    centroid_example.add_point_second_vector(point_two);
+    centroid_example.compute_H_matrix();
+    obtained_matrix = centroid_example.get_H_matrix();
+
+    for( int i = 0 ; i < 3 ; ++i )
+      for( int j = 0 ; j < 3 ; ++j )
+      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+  }
+
+  SECTION( "One element in each set of points: yy case" ) {
+    point_one = {0.,1.,0.};
+    point_two = {0.,1.,0.};
+    expected_matrix(1,1) = 1;
+
+    centroid_example.add_point_first_vector(point_one);
+    centroid_example.add_point_second_vector(point_two);
+    centroid_example.compute_H_matrix();
+    obtained_matrix = centroid_example.get_H_matrix();
+
+    for( int i = 0 ; i < 3 ; ++i )
+      for( int j = 0 ; j < 3 ; ++j )
+      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+  }
+
+  SECTION( "One element in each set of points: yz case" ) {
+    point_one = {0.,1.,0.};
+    point_two = {0.,0.,1.};
+    expected_matrix(1,2) = 1;
+
+    centroid_example.add_point_first_vector(point_one);
+    centroid_example.add_point_second_vector(point_two);
+    centroid_example.compute_H_matrix();
+    obtained_matrix = centroid_example.get_H_matrix();
+
+    for( int i = 0 ; i < 3 ; ++i )
+      for( int j = 0 ; j < 3 ; ++j )
+      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+  }
+
+  SECTION( "One element in each set of points: zx case" ) {
+    point_one = {0.,0.,1.};
+    point_two = {1.,0.,0.};
+    expected_matrix(2,0) = 1;
+
+    centroid_example.add_point_first_vector(point_one);
+    centroid_example.add_point_second_vector(point_two);
+    centroid_example.compute_H_matrix();
+    obtained_matrix = centroid_example.get_H_matrix();
+
+    for( int i = 0 ; i < 3 ; ++i )
+      for( int j = 0 ; j < 3 ; ++j )
+      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+  }
+
+  SECTION( "One element in each set of points: zy case" ) {
+    point_one = {0.,0.,1.};
+    point_two = {0.,1.,0.};
+    expected_matrix(2,1) = 1;
+
+    centroid_example.add_point_first_vector(point_one);
+    centroid_example.add_point_second_vector(point_two);
+    centroid_example.compute_H_matrix();
+    obtained_matrix = centroid_example.get_H_matrix();
+
+    for( int i = 0 ; i < 3 ; ++i )
+      for( int j = 0 ; j < 3 ; ++j )
+      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+  }
+
+  SECTION( "One element in each set of points: zz case" ) {
+    point_one = {0.,0.,1.};
+    point_two = {0.,0.,1.};
+    expected_matrix(2,2) = 1;
+
+    centroid_example.add_point_first_vector(point_one);
+    centroid_example.add_point_second_vector(point_two);
+    centroid_example.compute_H_matrix();
+    obtained_matrix = centroid_example.get_H_matrix();
+
+    for( int i = 0 ; i < 3 ; ++i )
+      for( int j = 0 ; j < 3 ; ++j )
+      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+  }
+
+  SECTION( "Two element in first set, one in the second." ) {
+    point_one = {1.,0.,0.};
+    centroid_example.add_point_first_vector(point_one);
+    point_two = {1.,0.,0.};
+    centroid_example.add_point_second_vector(point_two);
+    point_one = {0.,1.,0.};
+    centroid_example.add_point_first_vector(point_one);
+
+    expected_matrix(0,0) = 1;
+
+    centroid_example.compute_H_matrix();
+    obtained_matrix = centroid_example.get_H_matrix();
+
+    for( int i = 0 ; i < 3 ; ++i )
+      for( int j = 0 ; j < 3 ; ++j )
+      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+  }
+
+  SECTION( "Two element in first set, two in the second." ) {
+    point_one = {1.,0.,0.};
+    centroid_example.add_point_first_vector(point_one);
+    point_two = {1.,0.,0.};
+    centroid_example.add_point_second_vector(point_two);
+
+    expected_matrix(0,0) = 1;
+
+    point_one = {0.,1.,0.};
+    centroid_example.add_point_first_vector(point_one);
+    point_two = {0.,0.,1.};
+    centroid_example.add_point_second_vector(point_two);
+
+    expected_matrix(1,2) = 1;
+
+    centroid_example.compute_H_matrix();
+    obtained_matrix = centroid_example.get_H_matrix();
+
+    for( int i = 0 ; i < 3 ; ++i )
+      for( int j = 0 ; j < 3 ; ++j )
+      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+  }
+
+}
