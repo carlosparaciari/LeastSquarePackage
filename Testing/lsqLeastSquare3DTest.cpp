@@ -442,7 +442,7 @@ TEST_CASE( "Set the algorithm we use for computing the rotation", "[set_strategy
 
   lsq::LeastSquare3D strategy_example;
 
-  std::unique_ptr<lsq::ComputeRotation> algorithm( new lsq::ComputeRotation() );
+  std::unique_ptr<lsq::ComputeRotation> algorithm( new lsq::SVDMethod() );
 
   SECTION( "Check that the pointer algorithm is not empty." ) {
     if( !algorithm ) {
