@@ -18,9 +18,11 @@ namespace lsq {
 
   /// The class constructor.
   LeastSquare3D::LeastSquare3D() {
-  	m_first_centroid = {0.,0.,0.};
-  	m_second_centroid = {0.,0.,0.};
+  	m_first_centroid = Eigen::Vector3d::Zero(3);
+  	m_second_centroid = Eigen::Vector3d::Zero(3);
   	m_H_matrix = Eigen::Matrix3d::Zero(3, 3);
+  	m_rotation_matrix = Eigen::Matrix3d::Zero(3, 3);
+  	m_translation_vector = Eigen::Vector3d::Zero(3);
   }
 
   /// Method to add a 3D point into the first vector.
@@ -213,5 +215,20 @@ namespace lsq {
     return m_H_matrix;
 
   }
+
+  /// Method to set the algorithm to compute the rotation.
+  void LeastSquare3D::set_rotation_strategy(ComputeRotation* computing_algorithm) {}
+
+  /// Method to compute the rotation matrix connecting the first set of points to the second.
+  void LeastSquare3D::compute_rotation_matrix() {}
+
+  /// Method to compute the translation vector connecting the first set of points to the second.
+  void LeastSquare3D::compute_translation_vector() {}
+
+  /// Method to get the rotation matrix connecting the two set of points.
+  Eigen::Matrix3d LeastSquare3D::get_rotation_matrix() {}
+
+  /// Method to get the translation vector connecting the two set of points.
+  Eigen::Vector3d LeastSquare3D::get_translation_vector() {}
 
 } // end namespace

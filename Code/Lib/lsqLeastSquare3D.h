@@ -84,15 +84,6 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     */
     Eigen::Vector3d pop_point_second_vector();
 
-  	/// Method to set the algorithm to compute the rotation.
-    /**
-    * \param computing_algorithm an instance of the class ComputeRotation, specifies the strategy to use
-	  *
-	  * Set the algorithm used by the class to compute the rotation connecting the two points.
-	  * The algorithm can change, and the strategy pattern is used to provide two distinct algorithms.
-    */
-  	void set_rotation_strategy(ComputeRotation* computing_algorithm);
-
   	/// Method to compute the centroid of the first vector of 3D points.
     /**
     * \sa m_compute_centroid(), centroid_second_vector().
@@ -159,6 +150,15 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     * \sa compute_H_matrix().
     */
   	Eigen::Matrix3d get_H_matrix();
+
+  	/// Method to set the algorithm to compute the rotation.
+    /**
+    * \param computing_algorithm an instance of the class ComputeRotation, specifies the strategy to use
+	  *
+	  * Set the algorithm used by the class to compute the rotation connecting the two points.
+	  * The algorithm can change, and the strategy pattern is used to provide two distinct algorithms.
+    */
+  	void set_rotation_strategy(ComputeRotation* computing_algorithm);
 
   	/// Method to compute the rotation matrix connecting the first set of points to the second.
     /**
