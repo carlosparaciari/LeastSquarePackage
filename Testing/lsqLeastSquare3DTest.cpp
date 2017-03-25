@@ -15,6 +15,7 @@
 #include "catch.hpp"
 #include "lsqCatchMain.h"
 #include "lsqLeastSquare3D.h"
+#include "lsqComputeRotation.h"
 #include <Eigen/Dense>
 #include <iostream>
 #include <fstream>
@@ -433,6 +434,44 @@ TEST_CASE( "Compute the H matrix for the problem", "[H_matrix]" ) {
     obtained_matrix = H_matrix_example.get_H_matrix();
 
     REQUIRE( expected_matrix == obtained_matrix );
+  }
+
+}
+
+TEST_CASE( "Set the algorithm we use for computing the rotation", "[set_strategy]" ) {
+
+  lsq::LeastSquare3D strategy_example;
+
+  std::unique_ptr<lsq::ComputeRotation> algorithm( new lsq::ComputeRotation() );
+
+  SECTION( "Check that the pointer algorithm is not empty." ) {
+    if( !algorithm ) {
+      REQUIRE(false);
+    }
+    REQUIRE(true);
+  }
+
+  SECTION( "Check that the pointer to the selected algorithm in the class is empty." ) {
+    if( strategy_example.is_rotation_strategy() ) {
+      REQUIRE(false);
+    }
+    REQUIRE(true);
+  }
+
+  strategy_example.set_rotation_strategy( std::move(algorithm) );
+
+  SECTION( "Check that the pointer algorithm is empty." ) {
+    if( algorithm ) {
+      REQUIRE(false);
+    }
+    REQUIRE(true);
+  }
+
+  SECTION( "Check that the pointer to the selected algorithm in the class is not empty." ) {
+    if( !strategy_example.is_rotation_strategy() ) {
+      REQUIRE(false);
+    }
+    REQUIRE(true);
   }
 
 }
