@@ -217,7 +217,10 @@ namespace lsq {
   }
 
   /// Method to set the algorithm to compute the rotation.
-  void LeastSquare3D::set_rotation_strategy(ComputeRotation* computing_algorithm) {}
+  void LeastSquare3D::set_rotation_strategy(std::unique_ptr<ComputeRotation> computing_algorithm) {}
+
+  /// Method to check whether the algorithm to compute the rotation has been setted.
+  bool LeastSquare3D::is_rotation_strategy() {}
 
   /// Method to compute the rotation matrix connecting the first set of points to the second.
   void LeastSquare3D::compute_rotation_matrix() {}

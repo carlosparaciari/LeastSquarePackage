@@ -21,6 +21,7 @@
 #include <vector>
 #include <string>
 #include <exception>
+#include <memory>
 #include "lsqComputeRotation.h"
 
 /**
@@ -154,11 +155,19 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
   	/// Method to set the algorithm to compute the rotation.
     /**
     * \param computing_algorithm an instance of the class ComputeRotation, specifies the strategy to use
-	  *
-	  * Set the algorithm used by the class to compute the rotation connecting the two points.
-	  * The algorithm can change, and the strategy pattern is used to provide two distinct algorithms.
+	*
+	* Set the algorithm used by the class to compute the rotation connecting the two points.
+	* The algorithm can change, and the strategy pattern is used to provide two distinct algorithms.
     */
-  	void set_rotation_strategy(ComputeRotation* computing_algorithm);
+  	void set_rotation_strategy(std::unique_ptr<ComputeRotation> computing_algorithm);
+
+  	/// Method to check whether the algorithm to compute the rotation has been setted.
+    /**
+    * \return boolean value
+    *
+	* Return true if the strategy has been selected. false otherwhise.
+    */
+  	bool is_rotation_strategy();
 
   	/// Method to compute the rotation matrix connecting the first set of points to the second.
     /**
@@ -193,7 +202,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
   	std::vector<Eigen::Vector3d> m_first_point_vector; /**< Vector containing the first set of 3D points. */
   	std::vector<Eigen::Vector3d> m_second_point_vector; /**< Vector containing the second set of 3D points. */
 
-  	ComputeRotation* m_method_for_rotation; /**< Instance of the strategy class defining the algorithm to compute the rotation matrix. */
+  	std::unique_ptr<ComputeRotation> m_method_for_rotation; /**< Instance of the strategy class defining the algorithm to compute the rotation matrix. */
 
   	Eigen::Vector3d m_first_centroid; /**< Centroid of the first set of points. */
   	Eigen::Vector3d m_second_centroid; /**< Centroid of the second set of points. */
