@@ -32,9 +32,10 @@ namespace lsq
 * The strategies we implement to compute the rotation inherit from this class.
 */
 LEASTSQUARESPACKAGE_WINEXPORT class ComputeRotation {
+	
+  public:
 
-	ComputeRotation(){};
-	~ComputeRotation(){};
+  ComputeRotation() {};
 
 };
 
