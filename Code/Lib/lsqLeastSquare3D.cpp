@@ -223,12 +223,23 @@ namespace lsq {
   void LeastSquare3D::compute_rotation_matrix() {}
 
   /// Method to compute the translation vector connecting the first set of points to the second.
-  void LeastSquare3D::compute_translation_vector() {}
+  void LeastSquare3D::compute_translation_vector() {
+
+  	m_translation_vector = m_second_centroid - m_rotation_matrix * m_first_centroid;
+  }
 
   /// Method to get the rotation matrix connecting the two set of points.
-  Eigen::Matrix3d LeastSquare3D::get_rotation_matrix() {}
+  Eigen::Matrix3d LeastSquare3D::get_rotation_matrix() {
+
+    return m_rotation_matrix;
+
+  }
 
   /// Method to get the translation vector connecting the two set of points.
-  Eigen::Vector3d LeastSquare3D::get_translation_vector() {}
+  Eigen::Vector3d LeastSquare3D::get_translation_vector() {
+
+  	return m_translation_vector;
+
+  }
 
 } // end namespace
