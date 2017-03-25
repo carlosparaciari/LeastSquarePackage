@@ -147,7 +147,7 @@ TEST_CASE( "Translation vector is read", "[init]" ) {
 TEST_CASE( "Throw exception when we pop an element from empty array", "[add_remove_points]" ) {
 
   lsq::LeastSquare3D add_example;
-  Eigen::Array3d point_3D;
+  Eigen::Vector3d point_3D;
 
   SECTION( "Pop an element from the first vector" ) {
     REQUIRE_THROWS( point_3D = add_example.pop_point_first_vector() );
@@ -161,21 +161,19 @@ TEST_CASE( "Throw exception when we pop an element from empty array", "[add_remo
 TEST_CASE( "Add 3D point to first and second set", "[add_remove_points]" ) {
 
   lsq::LeastSquare3D add_example;
-  Eigen::Array3d point_3D_in = {1,2,3};
-  Eigen::Array3d point_3D_out;
+  Eigen::Vector3d point_3D_in = {1,2,3};
+  Eigen::Vector3d point_3D_out;
 
   SECTION( "Add point to first vector and pop it out" ) {
     add_example.add_point_first_vector(point_3D_in);
     point_3D_out = add_example.pop_point_first_vector();
-    for( int i = 0 ; i < 3 ; ++i )
-      REQUIRE( point_3D_out(i) == point_3D_in(i) );
+    REQUIRE( point_3D_out == point_3D_in );
   }
 
   SECTION( "Add point to second vector and pop it out" ) {
     add_example.add_point_second_vector(point_3D_in);
     point_3D_out = add_example.pop_point_second_vector();
-    for( int i = 0 ; i < 3 ; ++i )
-      REQUIRE( point_3D_out(i) == point_3D_in(i) );
+    REQUIRE( point_3D_out == point_3D_in );
   }
 
 }
@@ -183,7 +181,7 @@ TEST_CASE( "Add 3D point to first and second set", "[add_remove_points]" ) {
 TEST_CASE( "Compute centroid for the sets of points and update the set", "[centroids]" ) {
 
   lsq::LeastSquare3D centroid_example;
-  Eigen::Array3d point_3D_in;
+  Eigen::Vector3d point_3D_in;
   double x_value, y_value, z_value;
 
   std::fstream filein;
@@ -198,19 +196,17 @@ TEST_CASE( "Compute centroid for the sets of points and update the set", "[centr
 
   filein.close();
 
-  Eigen::Array3d expected_centroid = {0.,0.,0.};
-  Eigen::Array3d obtained_centroid;
+  Eigen::Vector3d expected_centroid = {0.,0.,0.};
+  Eigen::Vector3d obtained_centroid;
 
   SECTION( "Get first centroid without having computed it" ) {
     obtained_centroid = centroid_example.get_centroid_first_vector();
-    for( int i = 0 ; i < 3 ; ++i )
-      REQUIRE( expected_centroid(i) == obtained_centroid(i) );
+    REQUIRE( expected_centroid == obtained_centroid );
   }
 
   SECTION( "Get second centroid without having computed it" ) {
     obtained_centroid = centroid_example.get_centroid_second_vector();
-    for( int i = 0 ; i < 3 ; ++i )
-      REQUIRE( expected_centroid(i) == obtained_centroid(i) );
+    REQUIRE( expected_centroid == obtained_centroid );
   }
 
   expected_centroid = {1./3., 1./3., 1./3.};
@@ -218,28 +214,26 @@ TEST_CASE( "Compute centroid for the sets of points and update the set", "[centr
   SECTION( "Compute first centroid and check it" ) {
     centroid_example.centroid_first_vector();
     obtained_centroid = centroid_example.get_centroid_first_vector();
-    for( int i = 0 ; i < 3 ; ++i )
-      REQUIRE( expected_centroid(i) == obtained_centroid(i) );
+    REQUIRE( expected_centroid == obtained_centroid );
   }
 
   SECTION( "Compute again the first centroid and check that it does not change" ) {
     centroid_example.centroid_first_vector();
     obtained_centroid = centroid_example.get_centroid_first_vector();
-    for( int i = 0 ; i < 3 ; ++i )
-      REQUIRE( expected_centroid(i) == obtained_centroid(i) );
+    REQUIRE( expected_centroid == obtained_centroid );
   }
 
   SECTION( "Compute second centroid and get an error (the second vector is empty)" ) {
     REQUIRE_THROWS( centroid_example.centroid_second_vector() );
   }
   
-  Eigen::Array3d expected_point;
-  Eigen::Array3d obtained_point;
-  std::vector<Eigen::Array3d> expected_updated_first_vector;
+  Eigen::Vector3d expected_point;
+  Eigen::Vector3d obtained_point;
+  std::vector<Eigen::Vector3d> expected_updated_first_vector;
 
-  expected_updated_first_vector.push_back( Eigen::Array3d( {0.-1./3., 0.-1./3., 1.-1./3.} ) );
-  expected_updated_first_vector.push_back( Eigen::Array3d( {0.-1./3., 1.-1./3., 0.-1./3.} ) );
-  expected_updated_first_vector.push_back( Eigen::Array3d( {1.-1./3., 0.-1./3., 0.-1./3.} ) );
+  expected_updated_first_vector.push_back( Eigen::Vector3d( {0.-1./3., 0.-1./3., 1.-1./3.} ) );
+  expected_updated_first_vector.push_back( Eigen::Vector3d( {0.-1./3., 1.-1./3., 0.-1./3.} ) );
+  expected_updated_first_vector.push_back( Eigen::Vector3d( {1.-1./3., 0.-1./3., 0.-1./3.} ) );
 
   SECTION( "Update the first set of points around the centroid" ) {
     centroid_example.centroid_first_vector();
@@ -247,8 +241,7 @@ TEST_CASE( "Compute centroid for the sets of points and update the set", "[centr
     for(int i = 0 ; i < 3 ; ++i) {
       obtained_point = centroid_example.pop_point_first_vector();
       expected_point = expected_updated_first_vector[i];
-      for( int j = 0 ; j < 3 ; ++j )
-        REQUIRE( expected_point(j) == obtained_point(j) );
+      REQUIRE( expected_point == obtained_point );
     }
   }
 
@@ -262,16 +255,14 @@ TEST_CASE( "Compute the H matrix for the problem", "[H_matrix]" ) {
 
   lsq::LeastSquare3D centroid_example;
 
-  Eigen::Array3d point_one;
-  Eigen::Array3d point_two;
+  Eigen::Vector3d point_one;
+  Eigen::Vector3d point_two;
   Eigen::Matrix3d obtained_matrix;
   Eigen::Matrix3d expected_matrix = Eigen::Matrix3d::Zero(3, 3);
 
   SECTION( "Return the H matrix without compute it." ) {
     obtained_matrix = centroid_example.get_H_matrix();
-    for( int i = 0 ; i < 3 ; ++i )
-      for( int j = 0 ; j < 3 ; ++j )
-      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+    REQUIRE( expected_matrix == obtained_matrix );
   }
 
   SECTION( "No element in both sets of points." ) {
@@ -300,9 +291,7 @@ TEST_CASE( "Compute the H matrix for the problem", "[H_matrix]" ) {
     centroid_example.compute_H_matrix();
     obtained_matrix = centroid_example.get_H_matrix();
 
-    for( int i = 0 ; i < 3 ; ++i )
-      for( int j = 0 ; j < 3 ; ++j )
-      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+    REQUIRE( expected_matrix == obtained_matrix );
   }
 
   SECTION( "One element in each set of points: xy case" ) {
@@ -315,9 +304,7 @@ TEST_CASE( "Compute the H matrix for the problem", "[H_matrix]" ) {
     centroid_example.compute_H_matrix();
     obtained_matrix = centroid_example.get_H_matrix();
 
-    for( int i = 0 ; i < 3 ; ++i )
-      for( int j = 0 ; j < 3 ; ++j )
-      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+    REQUIRE( expected_matrix == obtained_matrix );
   }
 
   SECTION( "One element in each set of points: xz case" ) {
@@ -330,9 +317,7 @@ TEST_CASE( "Compute the H matrix for the problem", "[H_matrix]" ) {
     centroid_example.compute_H_matrix();
     obtained_matrix = centroid_example.get_H_matrix();
 
-    for( int i = 0 ; i < 3 ; ++i )
-      for( int j = 0 ; j < 3 ; ++j )
-      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+    REQUIRE( expected_matrix == obtained_matrix );
   } 
   
   SECTION( "One element in each set of points: yx case" ) {
@@ -345,9 +330,7 @@ TEST_CASE( "Compute the H matrix for the problem", "[H_matrix]" ) {
     centroid_example.compute_H_matrix();
     obtained_matrix = centroid_example.get_H_matrix();
 
-    for( int i = 0 ; i < 3 ; ++i )
-      for( int j = 0 ; j < 3 ; ++j )
-      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+    REQUIRE( expected_matrix == obtained_matrix );
   }
 
   SECTION( "One element in each set of points: yy case" ) {
@@ -360,9 +343,7 @@ TEST_CASE( "Compute the H matrix for the problem", "[H_matrix]" ) {
     centroid_example.compute_H_matrix();
     obtained_matrix = centroid_example.get_H_matrix();
 
-    for( int i = 0 ; i < 3 ; ++i )
-      for( int j = 0 ; j < 3 ; ++j )
-      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+    REQUIRE( expected_matrix == obtained_matrix );
   }
 
   SECTION( "One element in each set of points: yz case" ) {
@@ -375,9 +356,7 @@ TEST_CASE( "Compute the H matrix for the problem", "[H_matrix]" ) {
     centroid_example.compute_H_matrix();
     obtained_matrix = centroid_example.get_H_matrix();
 
-    for( int i = 0 ; i < 3 ; ++i )
-      for( int j = 0 ; j < 3 ; ++j )
-      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+    REQUIRE( expected_matrix == obtained_matrix );
   }
 
   SECTION( "One element in each set of points: zx case" ) {
@@ -390,9 +369,7 @@ TEST_CASE( "Compute the H matrix for the problem", "[H_matrix]" ) {
     centroid_example.compute_H_matrix();
     obtained_matrix = centroid_example.get_H_matrix();
 
-    for( int i = 0 ; i < 3 ; ++i )
-      for( int j = 0 ; j < 3 ; ++j )
-      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+    REQUIRE( expected_matrix == obtained_matrix );
   }
 
   SECTION( "One element in each set of points: zy case" ) {
@@ -405,9 +382,7 @@ TEST_CASE( "Compute the H matrix for the problem", "[H_matrix]" ) {
     centroid_example.compute_H_matrix();
     obtained_matrix = centroid_example.get_H_matrix();
 
-    for( int i = 0 ; i < 3 ; ++i )
-      for( int j = 0 ; j < 3 ; ++j )
-      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+    REQUIRE( expected_matrix == obtained_matrix );
   }
 
   SECTION( "One element in each set of points: zz case" ) {
@@ -420,9 +395,7 @@ TEST_CASE( "Compute the H matrix for the problem", "[H_matrix]" ) {
     centroid_example.compute_H_matrix();
     obtained_matrix = centroid_example.get_H_matrix();
 
-    for( int i = 0 ; i < 3 ; ++i )
-      for( int j = 0 ; j < 3 ; ++j )
-      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+    REQUIRE( expected_matrix == obtained_matrix );
   }
 
   SECTION( "Two element in first set, one in the second." ) {
@@ -438,9 +411,7 @@ TEST_CASE( "Compute the H matrix for the problem", "[H_matrix]" ) {
     centroid_example.compute_H_matrix();
     obtained_matrix = centroid_example.get_H_matrix();
 
-    for( int i = 0 ; i < 3 ; ++i )
-      for( int j = 0 ; j < 3 ; ++j )
-      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+    REQUIRE( expected_matrix == obtained_matrix );
   }
 
   SECTION( "Two element in first set, two in the second." ) {
@@ -461,9 +432,7 @@ TEST_CASE( "Compute the H matrix for the problem", "[H_matrix]" ) {
     centroid_example.compute_H_matrix();
     obtained_matrix = centroid_example.get_H_matrix();
 
-    for( int i = 0 ; i < 3 ; ++i )
-      for( int j = 0 ; j < 3 ; ++j )
-      REQUIRE( expected_matrix(i,j) == obtained_matrix(i,j) );
+    REQUIRE( expected_matrix == obtained_matrix );
   }
 
 }
