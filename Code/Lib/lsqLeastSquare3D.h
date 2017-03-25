@@ -55,7 +55,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     *
     * Add a point at the end of the vector m_first_point_vector.
     */
-  	void add_point_first_vector(const Eigen::Array3d & point);
+  	void add_point_first_vector(Eigen::Vector3d & point);
 
     /// Method to pop back the last 3D point of the first vector.
     /**
@@ -64,7 +64,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     *
     * Erase the last element of m_first_point_vector, and return it.
     */
-    Eigen::Array3d pop_point_first_vector();
+    Eigen::Vector3d pop_point_first_vector();
 
   	/// Method to add a 3D point into the second vector.
     /**
@@ -73,7 +73,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     *
     * Add a point at the end of the vector m_second_point_vector.
     */
-  	void add_point_second_vector(const Eigen::Array3d & point);
+  	void add_point_second_vector(Eigen::Vector3d & point);
 
     /// Method to pop back the last 3D point of the second vector.
     /**
@@ -82,7 +82,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     *
     * Erase the last element of m_second_point_vector, and return it.
     */
-    Eigen::Array3d pop_point_second_vector();
+    Eigen::Vector3d pop_point_second_vector();
 
   	/// Method to set the algorithm to compute the rotation.
     /**
@@ -109,7 +109,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     *
     * Returns the centroid of the first vector if it has been evaluated, or an empty 3D array otherwise.
     */
-    Eigen::Array3d get_centroid_first_vector();
+    Eigen::Vector3d get_centroid_first_vector();
 
   	/// Method to compute the centroid of the second vector of 3D points.
     /**
@@ -127,7 +127,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     *
     * Returns the centroid of the second vector if it has been evaluated, or an empty 3D array otherwise.
     */
-    Eigen::Array3d get_centroid_second_vector();
+    Eigen::Vector3d get_centroid_second_vector();
 
   	/// Method to update the first vector of points around its centroid.
     /**
@@ -186,22 +186,22 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     * \return the translation vector.
     * \sa compute_translation_vector().
     */
-  	Eigen::Array3d get_translation_vector();
+  	Eigen::Vector3d get_translation_vector();
 
   private:
 
-  	std::vector<Eigen::Array3d> m_first_point_vector; /**< Vector containing the first set of 3D points. */
-  	std::vector<Eigen::Array3d> m_second_point_vector; /**< Vector containing the second set of 3D points. */
+  	std::vector<Eigen::Vector3d> m_first_point_vector; /**< Vector containing the first set of 3D points. */
+  	std::vector<Eigen::Vector3d> m_second_point_vector; /**< Vector containing the second set of 3D points. */
 
   	ComputeRotation* m_method_for_rotation; /**< Instance of the strategy class defining the algorithm to compute the rotation matrix. */
 
-  	Eigen::Array3d m_first_centroid; /**< Centroid of the first set of points. */
-  	Eigen::Array3d m_second_centroid; /**< Centroid of the second set of points. */
+  	Eigen::Vector3d m_first_centroid; /**< Centroid of the first set of points. */
+  	Eigen::Vector3d m_second_centroid; /**< Centroid of the second set of points. */
 
   	Eigen::Matrix3d m_H_matrix; /**< Auxiliary matrix. We need it for the algorithms computing the rotation matrix */
 
   	Eigen::Matrix3d m_rotation_matrix; /**< Rotation matrix connecting the two sets of points. */
-  	Eigen::Array3d m_translation_vector; /**< Translation vector connecting the two sets of points. */
+  	Eigen::Vector3d m_translation_vector; /**< Translation vector connecting the two sets of points. */
 
   	/// Private method to pop back the last 3D point of a vector.
     /**
@@ -211,7 +211,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     *
     * Erase the last element of point_vector, and return it.
     */
-    Eigen::Array3d m_pop_point_vector(std::vector<Eigen::Array3d> & point_vector);
+    Eigen::Vector3d m_pop_point_vector(std::vector<Eigen::Vector3d> & point_vector);
 
   	/// Private method to compute the centroid of the a vector of 3D points.
     /**
@@ -221,7 +221,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     *
     * The centroid of the a set of points is computed.
     */
-  	Eigen::Array3d m_compute_centroid(const std::vector<Eigen::Array3d> & point_vector);
+  	Eigen::Vector3d m_compute_centroid(const std::vector<Eigen::Vector3d> & point_vector);
 
   	/// Private method to update a vector around its centroid.
     /**
@@ -231,7 +231,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     *
     * Update a set of 3D points so that their centroid is zero.
     */
-  	void m_update_points_around_centroid(std::vector<Eigen::Array3d> & point_vector, const Eigen::Array3d & point);
+  	void m_update_points_around_centroid(std::vector<Eigen::Vector3d> & point_vector, const Eigen::Vector3d & point);
 
 };
 

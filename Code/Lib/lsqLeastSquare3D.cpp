@@ -24,28 +24,28 @@ namespace lsq {
   }
 
   /// Method to add a 3D point into the first vector.
-  void LeastSquare3D::add_point_first_vector(const Eigen::Array3d & point) {
+  void LeastSquare3D::add_point_first_vector(Eigen::Vector3d & point) {
 
   	m_first_point_vector.push_back(point);
 
   }
 
   /// Method to add a 3D point into the second vector.
-  void LeastSquare3D::add_point_second_vector(const Eigen::Array3d & point) {
+  void LeastSquare3D::add_point_second_vector(Eigen::Vector3d & point) {
 
   	m_second_point_vector.push_back(point);
 
   }
 
   /// Private method to pop back the last 3D point of a vector.
-  Eigen::Array3d LeastSquare3D::m_pop_point_vector(std::vector<Eigen::Array3d> & point_vector) {
+  Eigen::Vector3d LeastSquare3D::m_pop_point_vector(std::vector<Eigen::Vector3d> & point_vector) {
 
   	if( point_vector.empty() ) {
   	  std::string message = std::string("Cannot remove any element.");
       throw std::length_error(message);
     }
     else {
-      Eigen::Array3d last_element;
+      Eigen::Vector3d last_element;
       last_element = point_vector.back();
       point_vector.pop_back();
       return last_element;
@@ -54,7 +54,7 @@ namespace lsq {
   }
 
   /// Method to pop back the last 3D point of the first vector.
-  Eigen::Array3d LeastSquare3D::pop_point_first_vector() {
+  Eigen::Vector3d LeastSquare3D::pop_point_first_vector() {
 
     try {
       return m_pop_point_vector(m_first_point_vector);
@@ -67,7 +67,7 @@ namespace lsq {
   }
 
   /// Method to pop back the last 3D point of the second vector.
-  Eigen::Array3d LeastSquare3D::pop_point_second_vector() {
+  Eigen::Vector3d LeastSquare3D::pop_point_second_vector() {
 
     try {
       return m_pop_point_vector(m_second_point_vector);
@@ -80,14 +80,14 @@ namespace lsq {
   }
 
   /// Method to compute the centroid of the a vector of 3D points.
-  Eigen::Array3d LeastSquare3D::m_compute_centroid(const std::vector<Eigen::Array3d> & point_vector) {
+  Eigen::Vector3d LeastSquare3D::m_compute_centroid(const std::vector<Eigen::Vector3d> & point_vector) {
 
     if( point_vector.empty() ) {
   	  std::string message = std::string("Cannot compute the centroid.");
       throw std::length_error(message);
     }
     else {
-      Eigen::Array3d centroid = {0.,0.,0.};
+      Eigen::Vector3d centroid = {0.,0.,0.};
       auto vector_iterator = point_vector.begin();
       for ( ; vector_iterator != point_vector.end(); ++vector_iterator) {
       	centroid += *vector_iterator;
@@ -125,21 +125,21 @@ namespace lsq {
   }
 
   /// Method to get the centroid of the first vector.
-  Eigen::Array3d LeastSquare3D::get_centroid_first_vector() {
+  Eigen::Vector3d LeastSquare3D::get_centroid_first_vector() {
 
   	return m_first_centroid;
 
   }
 
   /// Method to get the centroid of the second vector.
-  Eigen::Array3d LeastSquare3D::get_centroid_second_vector() {
+  Eigen::Vector3d LeastSquare3D::get_centroid_second_vector() {
 
   	return m_second_centroid;
 
   }
 
   /// Private method to update a vector around its centroid.
-  void LeastSquare3D::m_update_points_around_centroid(std::vector<Eigen::Array3d> & point_vector, const Eigen::Array3d & point) {
+  void LeastSquare3D::m_update_points_around_centroid(std::vector<Eigen::Vector3d> & point_vector, const Eigen::Vector3d & point) {
 
     if( point_vector.empty() ) {
   	  std::string message = std::string("Cannot update the set of points around the centroid.");
@@ -179,9 +179,39 @@ namespace lsq {
   }
 
   /// Method to compute an auxiliar matrix needed for computing the rotation.
-  void LeastSquare3D::compute_H_matrix() {}
+  void LeastSquare3D::compute_H_matrix() {
+
+  	if( m_first_point_vector.empty() ) {
+  	  std::string message = std::string("First vector is empty. Cannot compute the matrix H.");
+      throw std::length_error(message);
+    }
+
+    if( m_second_point_vector.empty() ) {
+  	  std::string message = std::string("Second vector is empty. Cannot compute the matrix H.");
+      throw std::length_error(message);
+    }
+
+    int end_element;
+
+    if( m_first_point_vector.size() > m_second_point_vector.size() ){
+      end_element = m_second_point_vector.size();
+    }
+    else {
+      end_element = m_first_point_vector.size();
+    }
+
+    m_H_matrix = Eigen::Matrix3d::Zero(3, 3);
+
+    for( int i = 0 ; i < end_element; ++i )
+      m_H_matrix += (m_first_point_vector[i]) * (m_second_point_vector[i]).transpose();
+
+  }
 
   /// Method to get the auxiliary matrix H.
-  Eigen::Matrix3d LeastSquare3D::get_H_matrix() {}
+  Eigen::Matrix3d LeastSquare3D::get_H_matrix() {
+
+    return m_H_matrix;
+
+  }
 
 } // end namespace
