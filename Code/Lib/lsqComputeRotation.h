@@ -36,21 +36,37 @@ LEASTSQUARESPACKAGE_WINEXPORT class ComputeRotation {
 
   public:
 
-  virtual Eigen::Matrix3d find_rotation(Eigen::Matrix3d H_matrix) =0;
+  	/// Abstract method to compute the rotation matrix which connect the two set of 3D points.
+    /**
+    * \param H_matrix an auxiliary matrix computed by the LeastSquare3D class.
+    * \return The rotation matrix.
+    * \sa SVDMethod, QuaternionMethod.
+    *
+    */
+    virtual Eigen::Matrix3d find_rotation(Eigen::Matrix3d H_matrix) =0;
 
 };
 
 /**
 * \brief The class SVDMethod implements the method suggested by K.S. Arun et al.
 * 
-* This class compute the rotation matrix using the single value decomposition of the auxiliary matrix H.
+* This class compute the rotation matrix using the singular value decomposition of the auxiliary matrix H.
 * This method is described in K.S. Arun et al., IEEE PAMI-9, 698-700 (1987).
 */
 LEASTSQUARESPACKAGE_WINEXPORT class SVDMethod : public ComputeRotation {
 
   public:
 
-  virtual Eigen::Matrix3d find_rotation(Eigen::Matrix3d H_matrix) {};
+  	/// Method to compute the rotation matrix which connect the two set of 3D points.
+    /**
+    * \param H_matrix an auxiliary matrix computed by the LeastSquare3D class.
+    * \return The rotation matrix.
+    * \sa QuaternionMethod.
+    *
+    * This method compute the rotation by computing the SVD of the matrix H.
+    * Can throw an exception if the matrix cannot be found.
+    */
+    Eigen::Matrix3d find_rotation(Eigen::Matrix3d H_matrix);
 
 };
 
@@ -64,7 +80,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class QuaternionMethod : public ComputeRotation {
 
   public:
 
-  virtual Eigen::Matrix3d find_rotation(Eigen::Matrix3d H_matrix) {};
+    Eigen::Matrix3d find_rotation(Eigen::Matrix3d H_matrix) {};
 
 };
 

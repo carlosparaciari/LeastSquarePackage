@@ -230,7 +230,7 @@ namespace lsq {
   	  return true;
   	else
   	  return false;
-  	
+
   }
 
   /// Method to compute the rotation matrix connecting the first set of points to the second.
