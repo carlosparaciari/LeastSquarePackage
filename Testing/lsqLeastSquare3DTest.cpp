@@ -398,9 +398,8 @@ TEST_CASE( "Compute the rotation matrix for the problem", "[R_matrix]" ) {
     expected_matrix(2,1) = -1.;
     expected_matrix(1,2) = 1.;
 
-    REQUIRE( obtained_matrix == expected_matrix );
+    REQUIRE( obtained_matrix.isApprox(expected_matrix,1.e-10) );
   }
-
 
 }
 

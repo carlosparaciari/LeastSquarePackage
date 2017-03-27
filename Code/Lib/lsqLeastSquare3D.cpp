@@ -234,7 +234,11 @@ namespace lsq {
   }
 
   /// Method to compute the rotation matrix connecting the first set of points to the second.
-  void LeastSquare3D::compute_rotation_matrix() {}
+  void LeastSquare3D::compute_rotation_matrix() {
+
+  	m_rotation_matrix = m_method_for_rotation->find_rotation(m_H_matrix);
+
+  }
 
   /// Method to compute the translation vector connecting the first set of points to the second.
   void LeastSquare3D::compute_translation_vector() {
