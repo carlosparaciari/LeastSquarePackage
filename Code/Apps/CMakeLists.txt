@@ -14,6 +14,7 @@
 
 set(LEASTSQUARESPACKAGE_APPS
   lsqMyFirstApp
+  lsqComputeRotTrans
 )
 foreach(app ${LEASTSQUARESPACKAGE_APPS})
   add_executable(${app} ${app}.cpp)

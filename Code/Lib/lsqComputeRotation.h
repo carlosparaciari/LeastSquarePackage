@@ -24,7 +24,7 @@
 
 /**
 * \file lsqComputeRotation.h
-* \brief Various Utilities.
+* \brief Implementation of different strategies to compute the rotation connecting two sets of 3D points.
 * \ingroup utilities
 */
 namespace lsq
