@@ -16,6 +16,7 @@
 
 namespace lsq {
 
+  /// Private method to check whether two numbers are approximately equal.
   bool SVDMethod::m_are_almost_equal(double a, double b) {
     return fabs(a - b) < m_precision;
   }

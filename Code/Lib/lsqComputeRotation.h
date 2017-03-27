@@ -74,8 +74,9 @@ LEASTSQUARESPACKAGE_WINEXPORT class SVDMethod : public ComputeRotation {
 
   private:
 
-  	double m_precision = 1.e-3;
+  	const double m_precision = 1.e-5; /**< constant precision up to which two doubles are equal. */
 
+    /// Private method to check whether two numbers are approximately equal.
   	bool m_are_almost_equal(double a, double b);
 
 };
