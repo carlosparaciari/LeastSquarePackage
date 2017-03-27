@@ -34,6 +34,20 @@ TEST_CASE( "Compute the rotation with the SVD methods", "[set_strategy]" ) {
     REQUIRE_THROWS( obtained_rotation_matrix = algorithm->find_rotation(input_H_matrix) );
   }
 
+  SECTION( "The method succeeds in finding the rotation, but has to modify the rotation to avoid a reflection." ) {
+    input_H_matrix(1,1) = -0.3;
+    input_H_matrix(2,0) = -1.;
+
+    expected_rotation_matrix(0,2) = -1.;
+    expected_rotation_matrix(1,1) = -1.;
+    expected_rotation_matrix(2,0) = -1.;
+
+    obtained_rotation_matrix = algorithm->find_rotation(input_H_matrix);
+
+    REQUIRE( expected_rotation_matrix == obtained_rotation_matrix );
+
+  }
+
   SECTION( "The method succeeds in finding the rotation." ) {
     input_H_matrix(1,1) = -0.3;
     input_H_matrix(2,0) = 1.;

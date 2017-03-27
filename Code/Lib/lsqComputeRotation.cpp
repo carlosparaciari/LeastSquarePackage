@@ -16,7 +16,46 @@
 
 namespace lsq {
 
+  bool SVDMethod::m_are_almost_equal(double a, double b) {
+    return fabs(a - b) < m_precision;
+  }
+
+
   /// Method to compute the rotation matrix which connect the two set of 3D points using SVD.
-  Eigen::Matrix3d SVDMethod::find_rotation(Eigen::Matrix3d H_matrix) {};
+  Eigen::Matrix3d SVDMethod::find_rotation(Eigen::Matrix3d H_matrix) {
+
+    Eigen::Matrix3d U_matrix;
+    Eigen::Matrix3d V_matrix;
+    Eigen::Vector3d singular_values;
+
+    Eigen::Matrix3d rotation_matrix;
+    double determinant_rotation;
+
+    Eigen::JacobiSVD<Eigen::Matrix3d> singular_value_decomposition(H_matrix,
+                                                                   Eigen::FullPivHouseholderQRPreconditioner |
+                                                                   Eigen::ComputeFullU |
+                                                                   Eigen::ComputeFullV);
+
+    U_matrix = singular_value_decomposition.matrixU();
+    V_matrix = singular_value_decomposition.matrixV();
+    singular_values = singular_value_decomposition.singularValues();
+
+    rotation_matrix = V_matrix * U_matrix.transpose();
+    determinant_rotation = rotation_matrix.determinant();
+
+    if ( m_are_almost_equal(determinant_rotation, 1.) ) {
+      return rotation_matrix;
+    }
+    else if ( m_are_almost_equal(determinant_rotation, -1.) && m_are_almost_equal(singular_values(2), 0.) ) {
+      V_matrix.col(2) = -V_matrix.col(2);
+      rotation_matrix = V_matrix * U_matrix.transpose();
+      return rotation_matrix;
+    }
+    else {
+      std::string message = std::string("SVD method cannot find the rotation.");
+      throw std::length_error(message);
+    }
+
+  }
 
 } // end namespace

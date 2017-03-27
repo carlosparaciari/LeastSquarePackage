@@ -16,7 +16,11 @@
 #define lsqComputeRotation_h
 
 #include "lsqWin32ExportHeader.h"
+#include <cmath>
+#include <string>
+#include <exception>
 #include <Eigen/Dense>
+#include <Eigen/SVD>
 
 /**
 * \file lsqComputeRotation.h
@@ -67,6 +71,12 @@ LEASTSQUARESPACKAGE_WINEXPORT class SVDMethod : public ComputeRotation {
     * Can throw an exception if the matrix cannot be found.
     */
     Eigen::Matrix3d find_rotation(Eigen::Matrix3d H_matrix);
+
+  private:
+
+  	double m_precision = 1.e-3;
+
+  	bool m_are_almost_equal(double a, double b);
 
 };
 
