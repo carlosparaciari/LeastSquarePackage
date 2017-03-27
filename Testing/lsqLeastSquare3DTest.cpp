@@ -356,6 +356,52 @@ TEST_CASE( "Compute the rotation matrix for the problem", "[R_matrix]" ) {
     REQUIRE( expected_matrix == obtained_matrix );
   }
 
+  std::unique_ptr<lsq::ComputeRotation> algorithm( new lsq::SVDMethod() );
+  rotation_example.set_rotation_strategy( std::move(algorithm) );
+  
+  SECTION( "Compute the rotation with the SVDMethod, without first computing H." ) {
+    rotation_example.compute_rotation_matrix();
+    obtained_matrix = rotation_example.get_rotation_matrix();
+
+    expected_matrix = Eigen::Matrix3d::Identity(3, 3);
+
+    REQUIRE( expected_matrix == obtained_matrix );
+  }
+
+  Eigen::Vector3d point_3D;
+
+  point_3D = {1.,0.,0.};
+  rotation_example.add_point_first_vector(point_3D);
+  point_3D = {0.,1.,0.};
+  rotation_example.add_point_first_vector(point_3D);
+  point_3D = {0.,0.,1.};
+  rotation_example.add_point_first_vector(point_3D);
+
+  point_3D = {1.,0.,0.};
+  rotation_example.add_point_second_vector(point_3D);
+  point_3D = {0.,0.,-1.};
+  rotation_example.add_point_second_vector(point_3D);
+  point_3D = {0.,1.,0.};
+  rotation_example.add_point_second_vector(point_3D);
+
+  SECTION( "Properly compute the rotation with the SVDMethod." ) {
+    rotation_example.centroid_first_vector();
+    rotation_example.update_first_points_around_centroid();
+    rotation_example.centroid_second_vector();
+    rotation_example.update_second_points_around_centroid();
+    rotation_example.compute_H_matrix();
+    rotation_example.compute_rotation_matrix();
+
+    obtained_matrix = rotation_example.get_rotation_matrix();
+
+    expected_matrix(0,0) = 1.;
+    expected_matrix(2,1) = -1.;
+    expected_matrix(1,2) = 1.;
+
+    REQUIRE( obtained_matrix == expected_matrix );
+  }
+
+
 }
 
 TEST_CASE( "Compute the translation vector for the problem", "[translation_vector]" ) {
