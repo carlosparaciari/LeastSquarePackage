@@ -12,8 +12,10 @@
 
 =============================================================================*/
 
+#include <boost/program_options.hpp>
 #include "lsqLeastSquare3D.h"
 #include <iostream>
+#include <cstdlib>
 
 /**
 * \file lsqComputeRotTrans.cpp
@@ -28,8 +30,5 @@
 * are saved in file "rotation.dat" and "translation.dat" respectively.
 */
 int main(int argc, char** argv) {
-
-
-
 
 }
