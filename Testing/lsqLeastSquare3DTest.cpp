@@ -372,11 +372,23 @@ TEST_CASE( "Compute the rotation matrix for the problem", "[R_matrix]" ) {
     obtained_matrix = rotation_example.get_rotation_matrix();
     REQUIRE( expected_matrix == obtained_matrix );
   }
-
-  std::unique_ptr<lsq::ComputeRotation> algorithm( new lsq::SVDMethod() );
-  rotation_example.set_rotation_strategy( std::move(algorithm) );
   
   SECTION( "Compute the rotation with the SVDMethod, without first computing H." ) {
+    std::unique_ptr<lsq::ComputeRotation> algorithm( new lsq::SVDMethod() );
+    rotation_example.set_rotation_strategy( std::move(algorithm) );
+
+    rotation_example.compute_rotation_matrix();
+    obtained_matrix = rotation_example.get_rotation_matrix();
+
+    expected_matrix = Eigen::Matrix3d::Identity(3, 3);
+
+    REQUIRE( expected_matrix == obtained_matrix );
+  }
+
+  SECTION( "Compute the rotation with the QuaternionMethod, without first computing H." ) {
+    std::unique_ptr<lsq::ComputeRotation> newalgorithm( new lsq::QuaternionMethod() );
+    rotation_example.set_rotation_strategy( std::move(newalgorithm) );
+
     rotation_example.compute_rotation_matrix();
     obtained_matrix = rotation_example.get_rotation_matrix();
 
@@ -402,6 +414,30 @@ TEST_CASE( "Compute the rotation matrix for the problem", "[R_matrix]" ) {
   rotation_example.add_point_second_vector(point_3D);
 
   SECTION( "Properly compute the rotation with the SVDMethod." ) {
+    std::unique_ptr<lsq::ComputeRotation> algorithm( new lsq::SVDMethod() );
+    rotation_example.set_rotation_strategy( std::move(algorithm) );
+
+    rotation_example.centroid_first_vector();
+    rotation_example.update_first_points_around_centroid();
+    rotation_example.centroid_second_vector();
+    rotation_example.update_second_points_around_centroid();
+    rotation_example.compute_H_matrix();
+    rotation_example.compute_rotation_matrix();
+
+    obtained_matrix = rotation_example.get_rotation_matrix();
+
+    expected_matrix(0,0) = 1.;
+    expected_matrix(2,1) = -1.;
+    expected_matrix(1,2) = 1.;
+
+    REQUIRE( obtained_matrix.isApprox(expected_matrix,1.e-10) );
+  }
+
+  SECTION( "Properly compute the rotation with the QuaternionMethod." ) {
+    std::unique_ptr<lsq::ComputeRotation> newalgorithm( new lsq::QuaternionMethod() );
+    rotation_example.set_rotation_strategy( std::move(newalgorithm) );
+
+    rotation_example.add_point_second_vector(point_3D);
     rotation_example.centroid_first_vector();
     rotation_example.update_first_points_around_centroid();
     rotation_example.centroid_second_vector();

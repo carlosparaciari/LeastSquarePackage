@@ -18,7 +18,7 @@
 #include <Eigen/Dense>
 #include <iostream>
 
-TEST_CASE( "Compute the rotation with the SVD methods", "[set_strategy]" ) {
+TEST_CASE( "Compute the rotation with the SVD methods", "[svd_rotation]" ) {
 
   std::unique_ptr<lsq::ComputeRotation> algorithm( new lsq::SVDMethod() );
 
@@ -61,5 +61,26 @@ TEST_CASE( "Compute the rotation with the SVD methods", "[set_strategy]" ) {
     REQUIRE( expected_rotation_matrix == obtained_rotation_matrix );
 
   }
+
+}
+
+TEST_CASE( "Compute the rotation with the Quaternion methods", "[quad_rotation]" ) {
+
+  std::unique_ptr<lsq::ComputeRotation> algorithm( new lsq::QuaternionMethod() );
+
+  Eigen::Matrix3d input_H_matrix = Eigen::Matrix3d::Zero(3, 3);
+  Eigen::Matrix3d expected_rotation_matrix = Eigen::Matrix3d::Zero(3, 3);
+  Eigen::Matrix3d obtained_rotation_matrix;
+
+  input_H_matrix(1,1) = -0.3;
+  input_H_matrix(2,0) = 1.;
+
+  expected_rotation_matrix(0,2) = 1.;
+  expected_rotation_matrix(1,1) = -1.;
+  expected_rotation_matrix(2,0) = 1.;
+
+  obtained_rotation_matrix = algorithm->find_rotation(input_H_matrix);
+
+  REQUIRE( obtained_rotation_matrix.isApprox(expected_rotation_matrix, 1.e-10) );
 
 }
