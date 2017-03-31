@@ -51,6 +51,23 @@ TEST_CASE( "Add 3D point to first and second set", "[add_remove_points]" ) {
     REQUIRE( point_3D_out == point_3D_in );
   }
 
+  SECTION( "Check if the two vectors have same size when they are empty" ) {
+    REQUIRE( add_example.same_number_of_points() == true );
+  }
+
+  SECTION( "Check if the two vectors have same size when it is true" ) {
+    add_example.add_point_first_vector(point_3D_in);
+    add_example.add_point_second_vector(point_3D_in);
+    REQUIRE( add_example.same_number_of_points() == true );
+  }
+
+  SECTION( "Check if the two vectors have same size when it is false" ) {
+    add_example.add_point_first_vector(point_3D_in);
+    add_example.add_point_second_vector(point_3D_in);
+    add_example.add_point_second_vector(point_3D_in);
+    REQUIRE( add_example.same_number_of_points() == false );
+  }
+
 }
 
 TEST_CASE( "Compute centroid for the sets of points and update the set", "[centroids]" ) {

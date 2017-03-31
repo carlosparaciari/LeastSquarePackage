@@ -81,6 +81,11 @@ namespace lsq {
 
   }
 
+    /// Method to check if the two vectors have the same number of elements.
+    bool LeastSquare3D::same_number_of_points() {
+      
+    }
+
   /// Method to compute the centroid of the a vector of 3D points.
   Eigen::Vector3d LeastSquare3D::m_compute_centroid(const std::vector<Eigen::Vector3d> & point_vector) {
 

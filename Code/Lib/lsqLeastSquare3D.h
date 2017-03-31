@@ -43,7 +43,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
 
   public:
 
-	/// The class constructor.
+	  /// The class constructor.
   	LeastSquare3D();
 
   	/// The class destructor.
@@ -84,6 +84,12 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     * Erase the last element of m_second_point_vector, and return it.
     */
     Eigen::Vector3d pop_point_second_vector();
+
+    /// Method to check if the two vectors have the same number of elements.
+    /**
+    * \return a boolean, true if m_first_point_vector has same size of m_second_point_vector.
+    */
+    bool same_number_of_points();
 
   	/// Method to compute the centroid of the first vector of 3D points.
     /**
@@ -155,9 +161,9 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
   	/// Method to set the algorithm to compute the rotation.
     /**
     * \param computing_algorithm an instance of the class ComputeRotation, specifies the strategy to use
-	*
-	* Set the algorithm used by the class to compute the rotation connecting the two points.
-	* The algorithm can change, and the strategy pattern is used to provide two distinct algorithms.
+	  *
+		* Set the algorithm used by the class to compute the rotation connecting the two points.
+		* The algorithm can change, and the strategy pattern is used to provide two distinct algorithms.
     */
   	void set_rotation_strategy(std::unique_ptr<ComputeRotation> computing_algorithm);
 
@@ -165,7 +171,7 @@ LEASTSQUARESPACKAGE_WINEXPORT class LeastSquare3D {
     /**
     * \return boolean value
     *
-	* Return true if the strategy has been selected. false otherwhise.
+		* Return true if the strategy has been selected. false otherwhise.
     */
   	bool is_rotation_strategy();
 
