@@ -21,7 +21,6 @@ namespace lsq {
     return fabs(a - b) < m_precision;
   }
 
-
   /// Method to compute the rotation matrix which connect the two set of 3D points using SVD.
   Eigen::Matrix3d SVDMethod::find_rotation(Eigen::Matrix3d H_matrix) {
 
@@ -58,5 +57,15 @@ namespace lsq {
     }
 
   }
+
+  /// Method to compute the rotation matrix which connect the two set of 3D points using quaternions.
+  Eigen::Matrix3d QuaternionMethod::find_rotation(Eigen::Matrix3d H_matrix) {}
+
+  /// Method to build the 4x4 matrix N out of the 3x3 matrix H.
+  Eigen::Matrix4d QuaternionMethod::m_build_matrix_N(Eigen::Matrix3d H_matrix) {}
+
+  /// Method to build the rotation matrix out of a quaternion (4D vector).
+  Eigen::Matrix3d QuaternionMethod::m_build_rotation(Eigen::Vector4d quaternion) {}
+  
 
 } // end namespace
