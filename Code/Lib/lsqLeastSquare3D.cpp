@@ -83,7 +83,7 @@ namespace lsq {
 
     /// Method to check if the two vectors have the same number of elements.
     bool LeastSquare3D::same_number_of_points() {
-      
+      return ( m_first_point_vector.size() == m_second_point_vector.size() );
     }
 
   /// Method to compute the centroid of the a vector of 3D points.
