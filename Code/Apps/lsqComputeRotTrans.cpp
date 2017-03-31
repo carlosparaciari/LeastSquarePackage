@@ -45,12 +45,15 @@ int main(int argc, char* argv[]) {
 
     boost::program_options::options_description desc("Allowed options");
     std::string algorithm_strategy;
+    std::string output_filename;
 
     desc.add_options()
       ("help,h", "produce help message")
       ("version,v", "return the version of the application")
       ("method,m", boost::program_options::value< std::string >(&algorithm_strategy)->default_value("svd"),
         "set the algorithm to use for computing the rotation, either svd or quat")
+      ("output,o", boost::program_options::value< std::string >(&output_filename)->default_value("output_rotation_translation.dat"),
+        "set the name of the output file where rotation and translation are saved")
       ("input-files", boost::program_options::value< std::vector<std::string> >(),
         "input files with the coordinates of the two sets of 3D points");
 
@@ -84,7 +87,7 @@ int main(int argc, char* argv[]) {
       }
 
       // ---------------------------- Read the coordinates and fill the two sets of 3D points ---------------------------
-      std::fstream filein;
+      std::ifstream filein;
       double x_value, y_value, z_value;
       Eigen::Vector3d point;
 
@@ -152,14 +155,27 @@ int main(int argc, char* argv[]) {
     reference_frames.compute_rotation_matrix();
     reference_frames.compute_translation_vector();
 
-    // ----------------------------------------- Print rotation and translation -----------------------------------------
+    // ----------------------------------------- Save rotation and translation -----------------------------------------
     Eigen::Matrix3d rotation = reference_frames.get_rotation_matrix();
     Eigen::Vector3d translation = reference_frames.get_translation_vector();
 
-    std::cout << "The rotation matrix is:" << std::endl;
-    std::cout << rotation << std::endl;
-    std::cout << "The translation vector is:" << std::endl;
-    std::cout << translation << std::endl;
+    std::ofstream fileout;
+
+    fileout.open( output_filename );
+
+    if (!fileout.is_open()) {
+      std::cerr << "Error opening the output file " << output_filename << "." << std::endl;
+      return 1;
+    }
+
+    std::cout << "Rotation and translation are saved in the output file " << output_filename << "." << std::endl;
+
+    fileout << "The rotation matrix is:" << std::endl;
+    fileout << rotation << std::endl;
+    fileout << "The translation vector is:" << std::endl;
+    fileout << translation << std::endl;
+
+    fileout.close();
 
     }
     catch(std::exception& e)
