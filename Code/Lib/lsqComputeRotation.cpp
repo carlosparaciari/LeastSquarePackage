@@ -59,7 +59,23 @@ namespace lsq {
   }
 
   /// Method to compute the rotation matrix which connect the two set of 3D points using quaternions.
-  Eigen::Matrix3d QuaternionMethod::find_rotation(Eigen::Matrix3d H_matrix) {}
+  Eigen::Matrix3d QuaternionMethod::find_rotation(Eigen::Matrix3d H_matrix) {
+
+    if ( H_matrix == Eigen::Matrix3d::Zero(3, 3) )
+      return Eigen::Matrix3d::Identity(3, 3);
+
+    Eigen::Matrix4d N_matrix;
+    Eigen::Vector4d max_eigenvector;
+    Eigen::Matrix3d rotation;
+
+    N_matrix = m_build_matrix_N(H_matrix);
+    Eigen::SelfAdjointEigenSolver<Eigen::Matrix4d> eigensystem(N_matrix);
+    max_eigenvector = eigensystem.eigenvectors().col(3);  // The max eigenvector is the one in the last column of the matrix (see Eigen documentation)
+    rotation = m_build_rotation(max_eigenvector);
+
+    return rotation;
+
+  }
 
   /// Method to build the 4x4 matrix N out of the 3x3 matrix H.
   Eigen::Matrix4d QuaternionMethod::m_build_matrix_N(Eigen::Matrix3d H_matrix) {
