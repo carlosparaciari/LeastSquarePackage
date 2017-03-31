@@ -31,7 +31,7 @@ Tested On
  * Linux - Ubuntu 16.04 LTS , g++ 5.4.0 , CMake 3.5.1, Boost 1.56.0, with SuperBuild
 
 
-Build Instructions
+Configure CMakeLists
 -----------------------------
 
 This package comes with the possibility of downloading several libraries.
@@ -66,6 +66,25 @@ of your Boost libraries. Indeed, it might be possible that your host system
 have a version of Boost that is different from the one assumed here (1.56.0).
 In that case, you will have to modify the ./CMakeLists.txt file (replace 1.56
 with your version number in line 238).
+
+
+
+Build Instructions
+-----------------------------
+
+Once you have configured the CMakeLists.txt file with your favourite options,
+you can build the package. Here an example of how you can build it in Linux
+(and MacOS). Write in the terminal the following commands
+
+```
+mkdir Build
+cd ./Build/
+cmake ..
+```
+
+If the output of cmake is positive, write ```make``` to build the package.
+
+To test the package, use ```make test```.
 
 
 Windows Users
