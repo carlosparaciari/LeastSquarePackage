@@ -16,8 +16,6 @@ set(DATA_DIR ${CMAKE_SOURCE_DIR}/Testing/Data)
 set(TMP_DIR ${CMAKE_BINARY_DIR}/Testing/Temporary)
 
 set(TEST_CASES
-  lsqBasicTest
-  lsqCommandLineArgsTest
   lsqReadFileTest
   lsqLeastSquare3DTest
   lsqComputeRotationTest
@@ -35,8 +33,6 @@ endforeach()
 # Dont forget its:  add_test(<test name (globally unique) > <exe name> <argument1> <argument2>
 ##################################################################################################
 
-add_test(NoArgs ${EXECUTABLE_OUTPUT_PATH}/lsqBasicTest)
-add_test(1File ${EXECUTABLE_OUTPUT_PATH}/lsqCommandLineArgsTest ${DATA_DIR}/input.txt)
 add_test(Read
   ${EXECUTABLE_OUTPUT_PATH}/lsqReadFileTest
   ${DATA_DIR}/first_set_points_test.txt

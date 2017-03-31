@@ -13,7 +13,6 @@
 #============================================================================*/
 
 set(LEASTSQUARESPACKAGE_APPS
-  lsqMyFirstApp
   lsqComputeRotTrans
 )
 foreach(app ${LEASTSQUARESPACKAGE_APPS})

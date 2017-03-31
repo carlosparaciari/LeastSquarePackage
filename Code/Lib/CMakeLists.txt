@@ -14,7 +14,6 @@
 
 set(LEASTSQUARESPACKAGE_SRCS
   lsqBasicTypes.cpp
-  lsqMyFunctions.cpp
   lsqLeastSquare3D.cpp
   lsqComputeRotation.cpp
 )

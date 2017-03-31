@@ -1,48 +1,34 @@
-CMakeCatchTemplate
+LeastSquarePackage
 ------------------
 
-[![Build Status](https://travis-ci.org/MattClarkson/CMakeCatchTemplate.svg?branch=master)](https://travis-ci.org/MattClarkson/CMakeCatchTemplate)
-[![Build Status](https://ci.appveyor.com/api/projects/status/5pm89ej732c1ekf0/branch/master)](https://ci.appveyor.com/project/MattClarkson/cmakecatchtemplate)
+This package provides tools for computing the least-square rotation and translation
+connecting two sets of 3D points. Two different algorithms are provided for finding
+the rotation, one based on singular value decomposition - K.S. Arun et al., IEEE PAMI-9, 698-700 (1987),
+and the other based on the quaternionic representation of rotations - B.K.P. Horn, J. Opt. Soc. Am. A 4, 629-642 (1987). 
 
+Credit goes to [MattClarkson](https://github.com/MattClarkson) for the CMake template used for this package. 
 
-This is a simple project to demonstrate a reasonable
-structure for CMake/CTest and Catch based projects.
-
-You can either
- 1. Clone this repo, and use directly
- 2. Export the project (download without a .git folder), and then rename all instances of LEASTSQUARESPACKAGE,
- leastsquarespackage, LeastSquaresPackage and the namespace lsq with names of your choice, and then rename the top-level project folder.
- 
-
-The substitutions for the second option can be achieved manually or by editing and running `rename.sh`.
-Credit and thanks go to [ddervs](https://github.com/ddervs) for `rename.sh`.
-
-Note: Running `rename.sh` should be performed on a non-git folder and before running CMake for the first time.
+Note: The package was built as an exercise and is no longer maintained.
 
 Overview
 --------
 
-The features provided are:
- 1. Meta-Build, a.k.a. SuperBuild to download and build Boost, Eigen and OpenCV.
- 2. A single library for the main functionality - called leastsquarespackage, so you should rename it.
- 3. Unit tests, using Catch, and run with CTest - to demonstrate correctness and regression.
- 4. A single command line application - to give the end user a functioning program.
- 5. KWStyle to check some basic code style - for consistency
- 6. CppCheck to check some code features - for performance, style and correctness
- 7. Doxygen config - for documentation
- 8. CI build with Travis
+The features of the package are:
+ 1. Methods to compute the centroid of sets of 3D points.
+ 2. Two different algorithms to compute the rotation.
+ 3. The algorithms are implemented using strategy pattern, so you can add more and choose the one you like at runtime.
+ 4. Unit tests with Catch (run ```make test``` to run the tests)
+ 5. Use CMake to build the package (also possible to use SuperBuild option to download dependencies).
+ 6. Doxygen creates the documentation.
+ 7. Use Eigen 3.3.2 and Boost 1.63.0.
+ 8. Command-line application which reads from two files (sets of points) and return the rotation and translation.
 
 
 Tested On
 -----------------------------
 
- * Windows - Windows 8, VS2012, CMake 3.3.1
- * Linux - Centos 7, g++ 4.8.5, CMake 3.5.1
- * Mac - OSX 10.10.5, clang 6.0, CMake 3.6.3
-
-With all other versions - good luck.
-
-Note: Installation and Packaging are not ready yet.
+ * Windows - Windows 10, g++ 5.3.0 (MinGW - MSYS), CMake 3.7.1
+ * Linux - soon
 
 
 Build Instructions
@@ -53,22 +39,22 @@ These were chosen as an example of how to use CMake, and some common
 C++ projects. These dependencies are optional, and this project
 will compile without them.
 
-Furthermore, these dependencies can be downloaded and built,
-or the user can specify directories of previously compiled
-libraries.
-
-To download and build dependencies, use CMake to configure:
+This package comes with the possibility of downloading several libraries.
+In particular, it is possible to download and build Eigen and Boost, which
+are needed for the package to work. To download and build dependencies, use
+CMake to configure:
 
   * BUILD_SUPERBUILD:BOOL=ON
 
-Then to select any of Eigen, Boost or OpenCV, use CMake to set:
+One can also avoid to download and build these dependencies, in case they are
+present in the machine yet. In that case, set:
 
-  * BUILD_Eigen:BOOL=ON|OFF
-  * BUILD_Boost:BOOL=ON|OFF
-  * BUILD_OpenCV:BOOL=ON|OFF
+  * BUILD_SUPERBUILD:BOOL=OFF
 
-So, if BUILD_SUPERBUILD=OFF, then CMake will just try finding
-locally installed versions rather then downloading them.
+In any case, the following options should be set as follow
+
+  * BUILD_Eigen:BOOL=ON
+  * BUILD_Boost:BOOL=ON
 
 To switch between static/dynamic linking, use CMake to set:
 
@@ -80,16 +66,11 @@ To switch between Debug and Release mode, use CMake to set:
 
 Note: Only Debug and Release are supported. 
 
-As mentioned in lectures, CMake will find 3rd party libraries using either
-  1. a FindModule.cmake included within CMake's distribution, e.g. Boost
-  2. a custom made FindModule.cmake, e.g. Eigen
-  3. using CMAKE_PREFIX_PATH and 'config mode' e.g. OpenCV
-
-(where Module is the name of your module, e.g. OpenCV, Boost).
-
-However, your host system is very likely to have a version of Boost that
-is different to the one assumed here. So if you want to turn Boost on,
-you should probably try and use the one provided by this SuperBuild.
+It might be possible that your host system have a version of Boost that
+is different from the one assumed here (1.63.0). If you want to set the
+SuperBuild option on, or you have a different version, you should modify
+the main CMakeLists.txt file (replace 1.63 with your version number in
+line 357).
 
 
 Windows Users
@@ -101,16 +82,14 @@ StartVS_Debug.bat or StartVS_Release.bat in the LEASTSQUARESPACKAGE-build folder
 This sets the path before launching Visual Studio, so that dynamically
 loaded libraries are found at run time.
 
+Note: The package was never built with Visual Studio, so other problems might appear.
 
-Preferred Branching Workflow
-----------------------------
 
- 1. Raise issue in this project's Github Issue Tracker.
- 2. Fork repository.
- 3. Create a feature branch called ```<issue-number>-<some-short-description>```
-    replacing ```<issue-number>``` with the Github issue number
-    and ```<some-short-description>``` with your description of the thing you are implementing.
- 4. Code on that branch.
- 5. Push to your remote when ready.
- 6. Create pull request.
- 7. We will review code, and merge to master when it looks ready.
+Command-line application
+------------------------
+
+This package comes with a handy command-line application, lsqComputeRotTrans.
+This application reads from two different files (with the coordinates of 3D
+points in it), and output the rotation and translation connecting the points.
+You can set the method you want to use, and specify the output file where the
+rotation and translation will be saved.
