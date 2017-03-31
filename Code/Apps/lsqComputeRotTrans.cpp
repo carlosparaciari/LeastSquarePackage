@@ -43,25 +43,37 @@ int main(int argc, char* argv[]) {
 
   try {
 
-    boost::program_options::options_description desc("Allowed options");
     std::string algorithm_strategy;
     std::string output_filename;
+
+    // Allowed options, shown in the help.
+    boost::program_options::options_description desc("Options");
 
     desc.add_options()
       ("help,h", "produce help message")
       ("version,v", "return the version of the application")
       ("method,m", boost::program_options::value< std::string >(&algorithm_strategy)->default_value("svd"),
-        "set the algorithm to use for computing the rotation, either svd or quat")
-      ("output,o", boost::program_options::value< std::string >(&output_filename)->default_value("output_rotation_translation.dat"),
+        "set the algorithm for computing the rotation, either svd or quat")
+      ("output,o", boost::program_options::value< std::string >(&output_filename)->default_value("output.dat"),
         "set the name of the output file where rotation and translation are saved")
+    ;
+
+    // Hidden options, are allowed on command line, but are not shown to the user.
+    boost::program_options::options_description hidden("Hidden options");
+
+    hidden.add_options()
       ("input-files", boost::program_options::value< std::vector<std::string> >(),
-        "input files with the coordinates of the two sets of 3D points");
+        "input files with the coordinates of the two sets of 3D points")
+    ;
+
+    boost::program_options::options_description cmdline_options;
+    cmdline_options.add(desc).add(hidden);
 
     boost::program_options::positional_options_description p;
     p.add("input-files", -1);
 
     boost::program_options::variables_map vm;
-    boost::program_options::store(boost::program_options::command_line_parser(argc, argv).options(desc).positional(p).run(), vm);
+    boost::program_options::store(boost::program_options::command_line_parser(argc, argv).options(cmdline_options).positional(p).run(), vm);
     boost::program_options::notify(vm);
 
     if (vm.count("help")) {
