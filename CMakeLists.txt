@@ -229,6 +229,22 @@ endif(BUILD_TESTING)
 
 
 ######################################################################
+# If the BUILD_SUPERBUILD flag is on, then the Boost_VERSION flag is
+# set to 1.56 (the one obtained with apt-get in Linux). Otherwise,
+# the version is the one already present in the host machine (in my
+# case is 1.63). User will need to manually set it to a different
+# value depending on the version of their Boost libraries.
+#
+# We need to set the version before the next command, that force the
+# BUILD_SUPERBUILD flag to be OFF.
+######################################################################
+if(BUILD_SUPERBUILD)
+  set(Boost_VERSION 1.56)
+else()
+  set(Boost_VERSION 1.63)
+endif()
+
+######################################################################
 # Now, if required, do the SuperBuild
 # If we are doing SuperBuild
 #   We configure up to this point (see the return() statement)
@@ -354,11 +370,7 @@ if(BUILD_Boost)
     set(Boost_USE_STATIC_LIBS ON)
     set(Boost_USE_STATIC_RUNTIME ON) 
   endif()
-  if(BUILD_SUPERBUILD)
-    find_package(Boost 1.56 EXACT COMPONENTS program_options REQUIRED)
-  else()
-    find_package(Boost 1.63 EXACT COMPONENTS program_options REQUIRED)
-  endif()
+  find_package(Boost ${Boost_VERSION} EXACT COMPONENTS program_options REQUIRED)
   include_directories(${Boost_INCLUDE_DIRS})
   link_directories(${Boost_LIBRARY_DIRS})
   if(WIN32)

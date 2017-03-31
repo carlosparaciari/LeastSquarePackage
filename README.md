@@ -64,10 +64,10 @@ Note: Only Debug and Release are supported.
 It might be possible that your host system have a version of Boost that
 is different from the one assumed here (1.63.0). In that case, you will
 have to modify ./CMakeLists.txt file (replace 1.63 with your version
-number in line 360).
+number in line 244).
 
 Notice that, if you set the SuperBuild option on, the Boost version will
-be 1.56. You will not have to change the version by hanf, as CMake will do
+be 1.56. You will not have to change the version by hand, as CMake will do
 it for you.
 
 
