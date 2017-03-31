@@ -267,6 +267,10 @@ configure_file(${CMAKE_SOURCE_DIR}/Documentation/Licenses/OpenCV.txt ${CMAKE_BIN
 configure_file(${CMAKE_SOURCE_DIR}/README.md ${CMAKE_BINARY_DIR}/README.md @ONLY)
 configure_file(${CMAKE_SOURCE_DIR}/CMake/Findglog.cmake.in ${CMAKE_BINARY_DIR}/Findglog.cmake @ONLY)
 configure_file(${CMAKE_SOURCE_DIR}/CMake/Findgflags.cmake.in ${CMAKE_BINARY_DIR}/Findgflags.cmake @ONLY)
+configure_file(${CMAKE_SOURCE_DIR}/Example/data_1.dat ${CMAKE_BINARY_DIR}/Example/data_1.dat)
+configure_file(${CMAKE_SOURCE_DIR}/Example/data_2_no_noise.dat ${CMAKE_BINARY_DIR}/Example/data_2_no_noise.dat)
+configure_file(${CMAKE_SOURCE_DIR}/Example/data_2_noise.dat ${CMAKE_BINARY_DIR}/Example/data_2_noise.dat)
+configure_file(${CMAKE_SOURCE_DIR}/Example/true_rotation_translation.txt ${CMAKE_BINARY_DIR}/Example/true_rotation_translation.txt)
 
 
 ######################################################################
