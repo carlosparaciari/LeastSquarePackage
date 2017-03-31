@@ -16,12 +16,12 @@ Overview
 The features of the package are:
  1. Methods to compute the centroid of sets of 3D points.
  2. Two different algorithms to compute the rotation.
- 3. The algorithms are implemented using strategy pattern, so you can add more and choose the one you like at runtime.
+ 3. The algorithms are implemented using the strategy pattern, so you can add more and choose the one you like at runtime.
  4. Unit tests with Catch (run ```make test``` to run the tests)
  5. Use CMake to build the package (also possible to use SuperBuild option to download dependencies).
  6. Doxygen creates the documentation.
  7. Use Eigen 3.3.2 and Boost 1.63.0.
- 8. Command-line application which reads from two files (sets of points) and return the rotation and translation.
+ 8. Command-line application which reads from two files (sets of points) and returns the rotation and translation.
 
 
 Tested On
@@ -34,11 +34,6 @@ Tested On
 Build Instructions
 -----------------------------
 
-This project can be configured to build against Eigen, Boost and OpenCV.
-These were chosen as an example of how to use CMake, and some common
-C++ projects. These dependencies are optional, and this project
-will compile without them.
-
 This package comes with the possibility of downloading several libraries.
 In particular, it is possible to download and build Eigen and Boost, which
 are needed for the package to work. To download and build dependencies, use
@@ -46,12 +41,12 @@ CMake to configure:
 
   * BUILD_SUPERBUILD:BOOL=ON
 
-One can also avoid to download and build these dependencies, in case they are
-present in the machine yet. In that case, set:
+You can also avoid to download and build these dependencies, in case they
+are already present in your host machine. In that case, set:
 
   * BUILD_SUPERBUILD:BOOL=OFF
 
-In any case, the following options should be set as follow
+In any case, the following options should be set as follow:
 
   * BUILD_Eigen:BOOL=ON
   * BUILD_Boost:BOOL=ON
@@ -90,6 +85,6 @@ Command-line application
 
 This package comes with a handy command-line application, lsqComputeRotTrans.
 This application reads from two different files (with the coordinates of 3D
-points in it), and output the rotation and translation connecting the points.
+points in it), and outputs the rotation and translation connecting the points.
 You can set the method you want to use, and specify the output file where the
 rotation and translation will be saved.
