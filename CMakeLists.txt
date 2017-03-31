@@ -41,7 +41,7 @@ set(NIFTK_EP_TARBALL_LOCATION "http://cmic.cs.ucl.ac.uk/platform/dependencies")
 ##############################################################################
 # We have a super-build option. (Terminology comes from Kitware/ITK/MITK etc).
 ##############################################################################
-option(BUILD_SUPERBUILD "Build LEASTSQUARESPACKAGE and the projects it depends on via SuperBuild.cmake." OFF)
+option(BUILD_SUPERBUILD "Build LEASTSQUARESPACKAGE and the projects it depends on via SuperBuild.cmake." ON)
 option(BUILD_gflags "Build gflags." OFF)
 option(BUILD_glog "Build glog." OFF)
 option(BUILD_OpenCV "Build OpenCV." OFF)
@@ -229,20 +229,13 @@ endif(BUILD_TESTING)
 
 
 ######################################################################
-# If the BUILD_SUPERBUILD flag is on, then the Boost_VERSION flag is
-# set to 1.56 (the one obtained with apt-get in Linux). Otherwise,
-# the version is the one already present in the host machine (in my
-# case is 1.63). User will need to manually set it to a different
-# value depending on the version of their Boost libraries.
+# The Boost_VERSION flag sets the version of the Boost library that
+# will be used. By default it is set to 1.56, which is the version
+# downloaded if the BUILD_SUPERBUILD flag is on.
 #
-# We need to set the version before the next command, that force the
-# BUILD_SUPERBUILD flag to be OFF.
+# Users with a different version of the Boost library NEED to modify it manually. 
 ######################################################################
-if(BUILD_SUPERBUILD)
-  set(Boost_VERSION 1.56)
-else()
-  set(Boost_VERSION 1.63)
-endif()
+set(Boost_VERSION 1.56)
 
 ######################################################################
 # Now, if required, do the SuperBuild

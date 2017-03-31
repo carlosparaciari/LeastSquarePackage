@@ -20,15 +20,15 @@ The features of the package are:
  4. Unit tests with Catch (run ```make test``` to run the tests)
  5. Use CMake to build the package (also possible to use SuperBuild option to download dependencies).
  6. Doxygen creates the documentation.
- 7. Use Eigen 3.3.2 and Boost 1.63.0.
+ 7. Use Eigen and Boost libraries.
  8. Command-line application which reads from two files (sets of points) and returns the rotation and translation.
 
 
 Tested On
 -----------------------------
 
- * Windows - Windows 10, g++ 5.3.0 (MinGW - MSYS), CMake 3.7.1
- * Linux - soon
+ * Windows - Windows 10, g++ 5.3.0 (MinGW - MSYS), CMake 3.7.1, Boost 1.63.0, no SuperBuild
+ * Linux - Ubuntu 16.04 LTS , g++ 5.4.0 , CMake 3.5.1, Boost 1.56.0, with SuperBuild
 
 
 Build Instructions
@@ -61,14 +61,11 @@ To switch between Debug and Release mode, use CMake to set:
 
 Note: Only Debug and Release are supported. 
 
-It might be possible that your host system have a version of Boost that
-is different from the one assumed here (1.63.0). In that case, you will
-have to modify ./CMakeLists.txt file (replace 1.63 with your version
-number in line 244).
-
-Notice that, if you set the SuperBuild option on, the Boost version will
-be 1.56. You will not have to change the version by hand, as CMake will do
-it for you.
+If you do not set the SuperBuild flag ON, you will need to check the version
+of your Boost libraries. Indeed, it might be possible that your host system
+have a version of Boost that is different from the one assumed here (1.56.0).
+In that case, you will have to modify the ./CMakeLists.txt file (replace 1.56
+with your version number in line 238).
 
 
 Windows Users
