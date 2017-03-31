@@ -62,10 +62,48 @@ namespace lsq {
   Eigen::Matrix3d QuaternionMethod::find_rotation(Eigen::Matrix3d H_matrix) {}
 
   /// Method to build the 4x4 matrix N out of the 3x3 matrix H.
-  Eigen::Matrix4d QuaternionMethod::m_build_matrix_N(Eigen::Matrix3d H_matrix) {}
+  Eigen::Matrix4d QuaternionMethod::m_build_matrix_N(Eigen::Matrix3d H_matrix) {
+
+    Eigen::Matrix4d N_matrix = Eigen::Matrix4d::Zero(4, 4);
+
+    N_matrix(0,0) = H_matrix(0,0) + H_matrix(1,1) + H_matrix(2,2);
+    N_matrix(0,1) = N_matrix(1,0) = H_matrix(1,2) - H_matrix(2,1);
+    N_matrix(0,2) = N_matrix(2,0) = H_matrix(2,0) - H_matrix(0,2);
+    N_matrix(0,3) = N_matrix(3,0) = H_matrix(0,1) - H_matrix(1,0);
+
+    N_matrix(1,1) = H_matrix(0,0) - H_matrix(1,1) - H_matrix(2,2);
+    N_matrix(1,2) = N_matrix(2,1) = H_matrix(0,1) + H_matrix(1,0);
+    N_matrix(1,3) = N_matrix(3,1) = H_matrix(2,0) + H_matrix(0,2);
+
+    N_matrix(2,2) = -H_matrix(0,0) + H_matrix(1,1) - H_matrix(2,2);
+    N_matrix(2,3) = N_matrix(3,2) = H_matrix(1,2) + H_matrix(2,1);
+
+    N_matrix(3,3) = -H_matrix(0,0) - H_matrix(1,1) + H_matrix(2,2);
+
+    return N_matrix;
+
+  }
 
   /// Method to build the rotation matrix out of a quaternion (4D vector).
-  Eigen::Matrix3d QuaternionMethod::m_build_rotation(Eigen::Vector4d quaternion) {}
+  Eigen::Matrix3d QuaternionMethod::m_build_rotation(Eigen::Vector4d quaternion) {
+
+    Eigen::Matrix3d rotation = Eigen::Matrix3d::Zero(3, 3);
+
+    rotation(0,0) = pow(quaternion(0),2.) + pow(quaternion(1),2.) - pow(quaternion(2),2.) - pow(quaternion(3),2.);
+    rotation(0,1) = 2 * ( quaternion(1) * quaternion(2) - quaternion(0) * quaternion(3) );
+    rotation(0,2) = 2 * ( quaternion(1) * quaternion(3) + quaternion(0) * quaternion(2) );
+
+    rotation(1,0) = 2 * ( quaternion(1) * quaternion(2) + quaternion(0) * quaternion(3) );
+    rotation(1,1) = pow(quaternion(0),2.) - pow(quaternion(1),2.) + pow(quaternion(2),2.) - pow(quaternion(3),2.);
+    rotation(1,2) = 2 * ( quaternion(2) * quaternion(3) - quaternion(0) * quaternion(1) );
+
+    rotation(2,0) = 2 * ( quaternion(1) * quaternion(3) - quaternion(0) * quaternion(2) );
+    rotation(2,1) = 2 * ( quaternion(2) * quaternion(3) + quaternion(0) * quaternion(1) );
+    rotation(2,2) = pow(quaternion(0),2.) - pow(quaternion(1),2.) - pow(quaternion(2),2.) + pow(quaternion(3),2.);
+
+    return rotation;
+
+  }
   
 
 } // end namespace
