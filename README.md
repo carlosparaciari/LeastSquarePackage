@@ -62,10 +62,13 @@ To switch between Debug and Release mode, use CMake to set:
 Note: Only Debug and Release are supported. 
 
 It might be possible that your host system have a version of Boost that
-is different from the one assumed here (1.63.0). If you want to set the
-SuperBuild option on, or you have a different version, you should modify
-the main CMakeLists.txt file (replace 1.63 with your version number in
-line 357).
+is different from the one assumed here (1.63.0). In that case, you will
+have to modify ./CMakeLists.txt file (replace 1.63 with your version
+number in line 360).
+
+Notice that, if you set the SuperBuild option on, the Boost version will
+be 1.56. You will not have to change the version by hanf, as CMake will do
+it for you.
 
 
 Windows Users

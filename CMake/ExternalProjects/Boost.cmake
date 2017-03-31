@@ -13,7 +13,7 @@
 #============================================================================*/
 
 set(LEASTSQUARESPACKAGE_USE_Boost 1)
-set(LEASTSQUARESPACKAGE_USE_Boost_LIBRARIES "filesystem;system;date_time;regex")
+set(LEASTSQUARESPACKAGE_USE_Boost_LIBRARIES "program_options")
 
 #-----------------------------------------------------------------------------
 # Boost
