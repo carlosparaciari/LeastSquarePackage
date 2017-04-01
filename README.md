@@ -29,6 +29,7 @@ Tested On
 
  * Windows - Windows 10, g++ 5.3.0 (MinGW - MSYS), CMake 3.7.1, Boost 1.63.0, no SuperBuild
  * Linux - Ubuntu 16.04 LTS , g++ 5.4.0 , CMake 3.5.1, Boost 1.56.0, with SuperBuild
+ * Mac - macOS Sierra 10.12.3 , c++ 4.2.1 , CMake 3.7.2, Boost 1.56.0, with SuperBuild
 
 
 Configure CMakeLists
